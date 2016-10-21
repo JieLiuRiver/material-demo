@@ -1,0 +1,13 @@
+<md-bottom-sheet class="md-list md-has-header" ng-cloak>
+    <md-subheader>展示底部列表如下</md-subheader>
+    <md-list>
+        <md-list-item ng-repeat="item in ctrl.items">
+            <md-button
+                    md-autofocus="$index == 2"
+                    class="md-list-item-content" >
+                <md-icon md-svg-src="{{item.icon}}"></md-icon>
+                <span class="md-inline-list-icon-label">{{ item.name }}</span>
+            </md-button>
+        </md-list-item>
+    </md-list>
+</md-bottom-sheet>

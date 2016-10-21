@@ -1,0 +1,197 @@
+<div class="container wrapContainer" ng-cloak>
+
+    <md-content>
+
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button>{{ctrl.title1}}</md-button>
+            <md-button md-no-ink class="md-primary">Primary</md-button>
+            <md-button ng-disabled="true" class="md-primary">Disabled</md-button>
+            <md-button class="md-warn">{{title4}}</md-button>
+            <div class="label">Flat</div>
+        </section>
+
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button class="md-raised">Button</md-button>
+            <md-button class="md-raised md-primary">Primary</md-button>
+            <md-button ng-disabled="true" class="md-raised md-primary">Disabled</md-button>
+            <md-button class="md-raised md-warn">Warn</md-button>
+            <div class="label">Raised</div>
+        </section>
+
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button class="md-fab" aria-label="Eat cake">
+                <md-icon md-svg-src="img/icons/cake.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab md-primary" aria-label="Use Android">
+                <md-icon md-svg-src="img/icons/android.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab" ng-disabled="true" aria-label="Comment">
+                <md-icon md-svg-src="img/icons/ic_comment_24px.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab md-primary md-hue-2" aria-label="Profile">
+                <md-icon md-svg-src="img/icons/ic_people_24px.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab md-mini" aria-label="Eat cake">
+                <md-icon md-svg-src="img/icons/cake.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab md-mini md-primary" aria-label="Use Android">
+                <md-icon md-svg-src="img/icons/android.svg" style="color: greenyellow;"></md-icon>
+            </md-button>
+            <div class="label">FAB</div>
+        </section>
+
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button ng-href="{{googleUrl}}" target="_blank">Default Link</md-button>
+            <md-button class="md-primary" ng-href="{{googleUrl}}" target="_blank">Primary Link</md-button>
+            <md-button>Default Button</md-button>
+            <div class="label">Link vs. Button</div>
+        </section>
+
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button class="md-primary md-hue-1">Primary Hue 1</md-button>
+            <md-button class="md-warn md-raised md-hue-2">Warn Hue 2</md-button>
+            <md-button class="md-accent">Accent</md-button>
+            <md-button class="md-accent md-raised md-hue-1">Accent Hue 1</md-button>
+            <div class="label">Themed</div>
+        </section>
+
+    </md-content>
+
+
+        <md-button class="md-raised" >view source</md-button>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="HTML">
+                <md-content class="md-padding">
+                    <pre><code>
+&lt;md-content class=&quot;md-padding&quot;&gt;
+    &lt;form ng-submit=&quot;$event.preventDefault()&quot;&gt;
+      &lt;p&gt;Use &lt;code&gt;md-autocomplete&lt;/code&gt; to search for matches from local or remote data sources.&lt;/p&gt;
+      &lt;md-autocomplete
+              ng-disabled=&quot;ctrl.isDisabled&quot;
+              md-no-cache=&quot;ctrl.noCache&quot;
+              md-selected-item=&quot;ctrl.selectedItem&quot;
+              md-search-text-change=&quot;ctrl.searchTextChange(ctrl.searchText)&quot;
+              md-search-text=&quot;ctrl.searchText&quot;
+              md-selected-item-change=&quot;ctrl.selectedItemChange(item)&quot;
+              md-items=&quot;item in ctrl.querySearch(ctrl.searchText)&quot;
+              md-item-text=&quot;item.display&quot;
+              md-min-length=&quot;0&quot;
+              placeholder=&quot;What is your favorite US state?&quot;&gt;
+        &lt;md-item-template&gt;
+          &lt;span md-highlight-text=&quot;ctrl.searchText&quot; md-highlight-flags=&quot;^i&quot;&gt;{{item.display}}&lt;/span&gt;
+        &lt;/md-item-template&gt;
+        &lt;md-not-found&gt;
+          No matches found for &quot;{{ctrl.searchText}}&quot;.
+        &lt;/md-not-found&gt;
+      &lt;/md-autocomplete&gt;
+      &lt;br/&gt;
+      &lt;md-checkbox ng-model=&quot;ctrl.simulateQuery&quot;&gt;Simulate query for results?&lt;/md-checkbox&gt;
+      &lt;md-checkbox ng-model=&quot;ctrl.noCache&quot;&gt;Disable caching of queries?&lt;/md-checkbox&gt;
+      &lt;md-checkbox ng-model=&quot;ctrl.isDisabled&quot;&gt;Disable the input?&lt;/md-checkbox&gt;
+      &lt;p&gt;By default, &lt;code&gt;md-autocomplete&lt;/code&gt; will cache results when performing a query.  After the initial call is performed, it will use the cached results to eliminate unnecessary server requests or lookup logic. This can be disabled above.&lt;/p&gt;
+    &lt;/form&gt;
+  &lt;/md-content&gt;
+                    </code></pre>
+
+                </md-content>
+            </md-tab>
+            <md-tab label="JS">
+                <md-content class="md-padding">
+                    <pre><code>
+(function () {
+  'use strict';
+  angular
+      .module('autocompleteDemo', ['ngMaterial'])
+      .controller('DemoCtrl', DemoCtrl);
+  function DemoCtrl ($timeout, $q, $log) {
+    var self = this;
+    self.simulateQuery = false;
+    self.isDisabled    = false;
+    self.states        = loadAll();
+    self.querySearch   = querySearch;
+    self.selectedItemChange = selectedItemChange;
+    self.searchTextChange   = searchTextChange;
+
+    function querySearch (query) {
+      var results = query ? self.states.filter( createFilterFor(query) ) : self.states,
+          deferred;
+      if (self.simulateQuery) {
+        deferred = $q.defer();
+        $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
+        return deferred.promise;
+      } else {
+        return results;
+      }
+    }
+    function searchTextChange(text) {
+      $log.info('Text changed to ' + text);
+    }
+    function selectedItemChange(item) {
+      $log.info('Item changed to ' + JSON.stringify(item));
+    }
+    function loadAll() {
+      var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware,\
+              Florida, Georgia, Hawaii, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana,\
+              Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana,\
+              Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina,\
+              North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina,\
+              South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia,\
+              Wisconsin, Wyoming';
+      return allStates.split(/, +/g).map( function (state) {
+        return {
+          value: state.toLowerCase(),
+          display: state
+        };
+      });
+    }
+    function createFilterFor(query) {
+      var lowercaseQuery = angular.lowercase(query);
+      return function filterFn(state) {
+        return (state.value.indexOf(lowercaseQuery) === 0);
+      };
+    }
+  }
+})();
+                    </code></pre>
+                </md-content>
+            </md-tab>
+            <md-tab label="CSS">
+                <md-content class="md-padding">
+                    <pre><code>
+.bottomSheetdemoBasicUsage .md-inline-list-icon-label {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: -10px;
+  height: 24px;
+  vertical-align: middle; }
+.bottomSheetdemoBasicUsage .md-grid-item-content {
+  height: 96px; }
+.bottomSheetdemoBasicUsage .md-grid-item-content md-icon {
+  height: 48px;
+  width: 48px; }
+.bottomSheetdemoBasicUsage .md-grid-text {
+  padding-bottom: 5px; }
+.bottomSheetdemoBasicUsage md-list-item, .bottomSheetdemoBasicUsage md-list-item .md-list-item-inner {
+  min-height: 48px; }
+.bottomSheetdemoBasicUsage h2 {
+  line-height: 36px;
+  padding-top: 10px; }
+.bottomSheetdemoBasicUsage .md-subheader .md-subheader-inner {
+  padding: 0px; }
+.bottomSheetdemoBasicUsage md-toast {
+  background-color: #B14141; }
+.bottomSheetdemoBasicUsage md-toast > * {
+  font-weight: bolder; }
+                    </code></pre>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+
+</div>
+<style>
+    md-content{
+        max-height:400px;
+        overflow: auto ;
+    }
+</style>

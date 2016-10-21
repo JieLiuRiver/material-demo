@@ -1,0 +1,32 @@
+<div class="container wrapContainer" ng-cloak>
+
+    <div ng-readonly="ctrl.checked" ui-ace="{
+      useWrapMode : false,
+      showGutter: true,
+      theme:'twilight',
+      mode: 'markdown',
+      firstLineNumber: 1,
+      onLoad: ctrl.aceLoaded,
+      onChange: ctrl.aceChanged
+    }">
+function demo3Controller( $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService){
+    var vm = this;
+    vm.aceLoaded = function(_editor){
+        console.log('ok');
+    }
+    vm.aceChanged = function(e) {
+        console.log('change');
+    }
+    vm.checked = false;
+}
+
+    </div>
+
+</div>
+<style>
+    .ace_editor { height: 500px; }
+    .ace_content{
+        font-family:consolas;
+        font-size:15px;
+    }
+</style>

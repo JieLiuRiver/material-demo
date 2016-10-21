@@ -1,0 +1,46 @@
+<div class="comboxtable-v2-container">
+    <input type="text" placeholder="请选择装车站点" ng-model="comboxtable.value" class="form-control" ng-click="toggleShowTable($event)"  style="width:100%">
+    <input type="hidden" ng-model="comboxtable.valueid">
+    <div class="comboxtable-v2-container2" style="min-width: 400px;" ng-show="isShowTable" ng-click="noHideTable($event)">
+        <div class="comboxtable-v2-search">
+            <div class="input-group input-group-sm" style="max-width: 350px;">
+                <span class="input-group-addon" style="background-color: white;">关键字:</span>
+                <input type="text" class="form-control" ng-model="searchFormdata.keyWord"  placeholder="{{searchInputPlaceholder == null?'请输入关键字查询':searchInputPlaceholder}}" ng-keyup="queryWhenIsBlank()">
+		    <span class="input-group-btn">
+		    	<button class="btn btn-success" type="button" ng-click="query()">查询</button>
+		    </span>
+            </div>
+        </div>
+
+        <div class="comboxtable-v2-list">
+            <table class="comboxtable-v2-table table table-bordered">
+                <thead>
+                <tr>
+                    <th style="width: 50px">序号</th>
+                    <th ng-repeat="columnName in columnNames" class="text-center text-info" style="font-size:12px;">
+                        <span ng-bind="columnName"></span>
+                    </th>
+                    <th style="width: 53px;font-size:12px;" class="text-center text-info"><span>操作</span></th>
+                </tr>
+                </thead>
+                <tbody><!--track by $index 因为会报错的解决方案 提示重复了-->
+                <tr ng-repeat="obj in datas track by $index" ng-click="onSelect(obj)" ng-class="{bgColor:obj.isSelected}">
+                    <td style="width: 50px" class="text-center" ng-bind="$index+1"></td>
+                    <td ng-repeat="field in columnFields" ng-bind="obj.{{field}}" class="text-center"></td>
+                    <td  style="width: 53px;"><a style="cursor: pointer" ng-click="onSelect(obj)" class="text-center">使用</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+       <div class="comboxtable-v2-footer">
+            <section style="float: right;display:inline-block;padding-right: 10px;font-size: 12px">共<span ng-bind="paging.getPageCount()"></span>页,第<span ng-bind="paging.pageNum"></span>页,<span ng-bind="paging.getRecordCount()"></span>条记录</section>
+            <section style="display: inline-block;padding-left: 10px;float: left;">
+                <a href="javascript:void(0);" ng-click="paging.skipToPrevious()" style="font-size: 12px;color: black;">上一页</a>
+                <a href="javascript:void(0);" ng-click="paging.skipToNext()" style="font-size: 12px;color: black;">下一页</a>
+            </section>
+        </div>
+        <!--<div class="comboxtable-v2-loading" ng-show="isShowLoading && isShowContainer">
+           <img src="/logisticsweb/static/js/plugins/angular.plugins/comboxtable_v2/image/loading.gif">
+       </div>-->
+    </div>
+</div>

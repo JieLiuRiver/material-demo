@@ -1,0 +1,56 @@
+
+<div class="container wrapContainer">
+    <form class="form-inline" id="arrivalCheck" name="arrivalCheck">
+        <div class="col-md-12 clearfix" >
+            <div class="col-sm-4 " style="margin-bottom: 10px;">
+                <label>装车单号:</label>
+                <input type="text" name="loadingbillnum" ng-model="vm.loadingbillnum"  placeholder="输入装车单号查询" class="form-control input-sm" style="width: 70%">
+            </div>
+
+            <div class="col-sm-4 " style="margin-bottom: 10px;">
+                <label>装车站点:</label>
+                <comboxtable
+                        column-names="['站点名称','公司名称','其他字段']"
+                        column-fields="['stationname','companyname','other']"
+                        datas="vm.stationDatas"
+                        on-query="vm.querystations()"
+                        recordcount="{{vm.stationDatas.total}}">
+                </comboxtable>
+            </div>
+        </div>
+        <div class="col-md-12 clearfix">
+            <div class="col-sm-4 " style="margin-bottom: 10px;">
+                <label>开始时间:</label>
+                <input
+                        name="begincreatedtime"
+                        type="text"
+                        required
+                        class="form-control"
+                        data-max-date="{{arrival.endcreatedtime}}"
+                        ng-model="vm.begincreatedtime"
+                        data-date-format="yyyy-MM-dd"
+                        data-date-type="string"
+                        data-autoclose="1"
+                        bs-datepicker style="height:30px;width: 70%;"
+                >
+                <div ng-messages="arrivalCheck.begincreatedtime.$error" ng-show="arrivalCheck.begincreatedtime.$invalid&&arrivalCheck.submitted" class="ng-messages-error">
+                    <div ng-message="required">开始时间为必填项</div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 " style="margin-bottom: 10px;">
+                <label>结束时间:</label>
+                <input name="endcreatedtime" type="text"  required class="form-control" data-min-date="{{vm.begincreatedtime}}" ng-model="arrival.endcreatedtime" data-date-format="yyyy-MM-dd" data-date-type="string" data-autoclose="1"  bs-datepicker style="height:30px;width: 70%;">
+                <div ng-messages="arrivalCheck.endcreatedtime.$error" ng-show="arrivalCheck.endcreatedtime.$invalid&&arrivalCheck.submitted" class="ng-messages-error">
+                    <div ng-message="required">结束时间为必填项</div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 " style="margin-bottom: 10px;">
+                <button type="submit" class="btn btn-success btn-sm" style="width: 100px" ng-click="vm.checkSureGet()">查询</button>
+                <button type="button" ng-disabled="button" class="btn btn-success btn-sm" style="width: 100px; " ng-click="sureGet()">到货确认</button>
+            </div>
+        </div>
+
+    </form>
+</div>

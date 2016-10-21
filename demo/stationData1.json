@@ -1,0 +1,42 @@
+[
+  {
+    "companyid": 600973124,
+    "stationid": 600973141,
+    "pstationname": "",
+    "pstationid": 0,
+    "stationname": "分拨中心A",
+    "companyname": "测试B公司"
+  },
+  {
+    "companyid": 600973124,
+    "stationid": 600973141,
+    "pstationname": "",
+    "pstationid": 0,
+    "stationname": "分拨中心B",
+    "companyname": "测试B公司"
+  },
+  {
+    "companyid": 600973124,
+    "stationid": 600973141,
+    "pstationname": "",
+    "pstationid": 0,
+    "stationname": "分拨中心C",
+    "companyname": "测试B公司"
+  },
+  {
+    "companyid": 600973124,
+    "stationid": 600973141,
+    "pstationname": "",
+    "pstationid": 0,
+    "stationname": "分拨中心D",
+    "companyname": "测试B公司"
+  },
+  {
+    "companyid": 600973124,
+    "stationid": 600973141,
+    "pstationname": "",
+    "pstationid": 0,
+    "stationname": "分拨中心E",
+    "companyname": "测试B公司"
+  }
+]

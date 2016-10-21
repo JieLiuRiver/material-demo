@@ -1,0 +1,137 @@
+<div class="container wrapContainer" ng-cloak>
+    <br/>
+    <code>Dialog:</code>
+    <div class="dialog-demo-content" layout="row" layout-wrap >
+        <md-button class="md-primary md-raised" ng-click="ctrl.showAlert($event)" flex flex-md="100">
+            Alert Dialog
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="ctrl.showConfirm($event)" flex flex-md="100">
+            Confirm Dialog
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="ctrl.showAdvanced($event)" flex flex-md="100">
+            Custom Dialog
+        </md-button>
+    </div>
+
+
+    <br/>
+    <code>List:</code>
+    <md-content>
+        <md-list>
+            <md-list-item class="md-3-line" ng-repeat="item in ctrl.messages">
+                <img ng-src="{{item.face}}?{{$index}}" class="face" alt="{{item.who}}">
+                <div class="md-list-item-text">
+                    <h3>{{item.what}}</h3>
+                    <h4>{{item.who}}</h4>
+                    <p>{{item.notes}}</p>
+                </div>
+                <md-divider md-inset ng-if="!$last"></md-divider>
+            </md-list-item>
+        </md-list>
+    </md-content>
+
+
+    <md-list-item ng-repeat="topping in ctrl.toppings">
+        <p> {{ topping.name }} </p>
+        <md-checkbox class="md-secondary" ng-model="topping.wanted"></md-checkbox>
+    </md-list-item>
+    <md-list-item ng-click=" ctrl.navigateTo( ctrl.setting.extraScreen, $event)" ng-repeat="setting in ctrl.settings">
+        <md-icon md-svg-icon="{{setting.icon}}"></md-icon>
+        <p> {{ setting.name }} </p>
+        <md-switch class="md-secondary" ng-model="setting.enabled"></md-switch>
+    </md-list-item>
+
+
+    <form action="" name="projectForm">
+        <md-input-container>
+            <label>Hourly Rate (USD)</label>
+            <input required type="number" step="any" name="rate" ng-model="project.rate" min="800"
+                   max="4999" ng-pattern="/^1234$/" md-maxlength="20" />
+            <div ng-messages="projectForm.rate.$error" multiple>
+                <div ng-message="required">
+                    You've got to charge something! You can't just <b>give away</b> a Missile Defense
+                    System.
+                </div>
+                <div ng-message="min">
+                    You should charge at least $800 an hour. This job is a big deal... if you mess up,
+                    everyone dies!
+                </div>
+                <div ng-message="pattern">
+                    You should charge exactly $1,234.
+                </div>
+                <div ng-message="max">
+                    {{projectForm.rate.$viewValue | currency:"$":0}} an hour? That's a little ridiculous. I
+                    doubt event Bill Clinton could afford that.
+                </div>
+            </div>
+        </md-input-container>
+        <md-input-container>
+            <label>Title</label>
+            <input ng-model="user.title">
+        </md-input-container>
+        <md-input-container>
+            <label>Email</label>
+            <input ng-model="user.email" type="email">
+        </md-input-container>
+        </md-content>
+        <md-content layout-padding>
+            <form name="userForm">
+                <div layout layout-sm="column">
+                    <md-input-container style="width:70%">
+                        <label>Company (Disabled)</label>
+                        <input ng-model="user.company" disabled>
+                    </md-input-container>
+                    <md-datepicker ng-model="user.submissionDate" md-placeholder="Enter date"></md-datepicker>
+                </div>
+                <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label>First name</label>
+                        <input ng-model="user.firstName">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Last Name</label>
+                        <input ng-model="theMax">
+                    </md-input-container>
+                </div>
+                <md-input-container flex>
+                    <label>Address</label>
+                    <input ng-model="user.address">
+                </md-input-container>
+                <md-input-container md-no-float>
+                    <input ng-model="user.address2" placeholder="Address 2">
+                </md-input-container>
+                <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label>City</label>
+                        <input ng-model="user.city">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>State</label>
+                        <input ng-model="user.state">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Postal Code</label>
+                        <input ng-model="user.postalCode" placeholder="12345">
+                    </md-input-container>
+                </div>
+                <md-input-container flex>
+                    <label>Biography</label>
+                    <textarea ng-model="user.biography" columns="1" md-maxlength="150"></textarea>
+                </md-input-container>
+            </form>
+    </form>
+
+
+</div>
+<style>
+    md-content{
+        max-height:800px;
+        overflow: auto ;
+    }
+    .face{
+        border-radius: 30px;
+        border: 1px solid #ddd;
+        width: 48px;
+        margin: 16px;
+    }
+</style>

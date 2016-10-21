@@ -1,0 +1,33 @@
+.comboxtable-v2-container{
+    height:30px;
+    width:70%;
+    display:inline-block;
+    position:relative;
+}
+.comboxtable-v2-container2{
+    position:absolute;
+    top:35px;
+    left:0;
+    border-radius:2px;
+    background:#fff;
+    border:1px solid #ccc;
+    height:300px;
+    z-index: 800;
+}
+
+.comboxtable-v2-search{
+    margin-left: calc( 50% - 134px );
+    margin-top: 5px;
+}
+.comboxtable-v2-list{
+    margin-top:5px;
+}
+.comboxtable-v2-list th,
+.comboxtable-v2-list td{
+    font-size: 12px;
+    font-weight:normal;
+}
+.comboxtable-v2-list tbody tr:hover{
+    background:#ccc;
+    color:#fff;
+}
