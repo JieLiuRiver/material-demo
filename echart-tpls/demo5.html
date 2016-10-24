@@ -1,0 +1,424 @@
+<div class=" wrapContainer" >
+
+    
+    <!--demo1-->
+    <pre><code>
+1)，主标题/副标题 title 
+    ECHarts2.x只能有一个标题组件，ECHarts3可以任意多个。
+    title : {
+        show : true, //是否显示
+        text : "",   //标题文本
+        link : "", //超链接
+        target : "", //self blank 打开的窗口方式
+        textStyle : :{  //样式
+            color : "#333",
+            fontStyle : "normal",
+            fontWeight : "border",
+            fontFamily : "",
+            fontSize : 18
+        },
+        textAlign : "", // left、center、right
+        textBaseline : "",  //垂直对齐 top/middle/bottom
+        subtext : "", //副标题
+        sublink : "", //副标题文本超链接
+        subtarget : "",  //self/blank
+        subtextStyle : {
+            color : "#333",
+            fontStyle : "normal",
+            fontWeight : "border",
+            fontFamily : "",
+            fontSize : 18
+        },
+        padding : 4,
+        itemGap : 20, //主副标题之间的间距
+        left : 20, //grid 组件离容器左侧的距离
+        top : 20, //grid 组件离容器上侧的距离
+        right : 20,
+        bottom : 20,
+        backgroundColor : "#333",
+        borderColor : "",
+        borderWidth : "",
+        shadowBlur : 10, //图形阴影的模糊大小。该属性配合 shadowColor,shadowOffsetX, shadowOffsetY 一起设置图形的阴影效果。
+        shadowColor : "#ccc", //阴影颜色
+        shadowOffsetX : 20,  //阴影水平方向上的偏移距离
+        shadowOffsetY : 20,  //阴影垂直方向上的偏移距离
+    }
+
+
+2),图例组件,系列的控制 legend 
+    legend : {
+        show : true,
+        zlevel : 0, //zlevel 大的 Canvas 会放在 zlevel 小的 Canvas 的上面
+        z : 2,  //z值小的图形会被z值大的图形覆盖。
+        left: 'auto',   //图例组件离容器左侧的距离。
+        top : "auto",
+        bottom : "auto",
+        right : "auto",
+        width : "auto", //图例组件的高度
+        height : "auto",
+        orient : "horizontal", //图例列表的布局朝向。horizontal,vertical
+        align : "auto", //图例标记和文本的对齐
+        padding : 5,
+        itemGap:10,   //图例每项之间的间隔
+        itemWidth : 24,
+        itemHeight : 14,
+        formatter : null,   //图例文本的内容格式器 支持字符串模板和回调函数两种形式  'Legend {name}' function (name) return 'Legend ' + name;}
+        selectedMode : true, //图例选择的模式
+        inactivecolor : "#ccc", //图例关闭时的颜色
+        selected : {    //图例选中状态表
+            '系列1': true,
+            '系列2': false
+        },
+        textStyle : {   //图例的公用文本样式
+            color:"#333"
+        },
+        tooltip : { //图例的 tooltip 配置，配置项同 tooltip。默认不显示，可以在 legend 文字很多的时候对文字做裁剪并且开启 tooltip
+            show: true
+        },
+        data : [   //图例的数据数组
+            {
+                name : "系列1",
+                icon: 'circle',
+                textStyle: {
+                    color: 'red'
+                }
+            }
+        ],
+        backgroundColor : "#ccc", 
+        borderColor : "",
+        borderWidth : "",
+        shadowBlur : 10, 
+        shadowColor : "#ccc", 
+        shadowOffsetX : 20, 
+        shadowOffsetY : 20,  
+    }
+
+
+3), 直角坐标系内绘图网格 可以在网格上绘制折线图，柱状图，散点图（气泡图）
+    在 ECharts 2.x 里单个 echarts 实例中最多只能存在一个 grid 组件，
+    在 ECharts 3 中可以存在任意个 grid 组件 ------------------------grid 
+        grid : {
+            show : false,
+            zlevel:0,
+            z:2,
+            left:'',
+            top : "",
+            right : '',
+            bottom : '',
+            width : '',
+            height : '',
+            containLabel : false, //grid 区域是否包含坐标轴的刻度标签，在无法确定坐标轴标签的宽度，
+            容器有比较小无法预留较多空间的时候，可以设为 true 防止标签溢出容器
+            backgroundColor : "",
+            borderColor : "#ccc",
+            boirderWidth : 2，
+            shadowBlur : 10,
+            shadowColor : "#ccc", 
+            shadowOffsetX : 20, 
+            shadowOffsetY : 20, 
+        }
+
+
+4), 直角坐标系 grid 中的 x 轴，单个 grid 组件最多只能放上下两个 x 轴-----xAxis
+    xAxis : {
+        gridIndex : 0,  //x 轴所在的 grid 的索引,默认位于第一个 grid
+        position 'top': ,    //x 轴的位置
+        offset : 0, //X 轴相对于默认位置的偏移
+        type : "category",  //坐标轴类型 
+            value 数值轴，适用于连续数据 
+            category 类目轴，适用于离散的类目数据 
+            time 时间轴，适用于连续的时序数据
+            log 对数轴。适用于对数数据
+        name : ,        //坐标轴名称
+        nameLocation : "end",   //坐标轴名称显示位置 start middle end
+        nameTextStyle : {
+        },
+        nameGap : 14,   //坐标轴名称与轴线之间的距离
+        nameROtate:null,    //坐标轴名字旋转，角度值
+        inverse : false,    //是否是反向坐标轴
+        boundaryGap :['20%', '20%'], //坐标轴两边留白策略
+        min: "auto",     //坐标轴刻度最小值，在类目轴中无效
+        max : "auto",   //坐标轴刻度最大值
+        scale : false,  //只在数值轴中（type: 'value'）有效
+        splitNumber:5,  //坐标轴的分割段数
+        minInterval : 0,    //自动计算的坐标轴最小间隔大小
+        interval : 2,    //强制设置坐标轴分割间隔
+        logBase : 10,   //对数轴的底数，只在对数轴中（type: 'log'）有效
+        silent : false, //坐标轴是否是静态无法交互
+        triggerEvent : false,   //坐标轴的标签是否响应和触发鼠标事件，默认不响应
+        axisLine : {
+            show :true,
+            onZero:true,//X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，
+            只有在另一个轴为数值轴且包含 0 刻度时有效
+            lineStyle:{
+            }
+        },
+        axisTick:{  //坐标轴刻度相关设置
+            show :true,
+            aliginWidthLabel : false, //类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐
+            interval : 'auto',  //坐标轴刻度标签的显示间隔
+            inside : false,
+            length  :5, //坐标轴刻度的长度
+            lineStyle:{
+            }     
+        },
+        axisLabel:{     //坐标轴刻度标签的相关设置
+            show :true,
+            interval : 'auto',  //坐标轴刻度标签的显示间隔
+            inside : false, //刻度标签是否朝内，默认朝外。
+            rotate:0, //刻度标签旋转的角度
+            margin:8,   //刻度标签与轴线之间的距离
+            formatter:null,
+            textStyle:{
+            }
+        },
+        splitLine:{ //坐标轴在 grid 区域中的分隔线
+            show : true,
+            interval : "auto",  //坐标轴分隔线的显示间隔
+            lineStyle:{
+            }
+        },
+        splitArea:{ //坐标轴在 grid 区域中的分隔区域
+            interval : "auto", //坐标轴分隔区域的显示间隔
+            show : true, //是否显示分隔区域
+            areaStyle :{    //分隔区域的样式设置
+            }
+        },
+        data:[  //类目数据，在类目轴（type: 'category'）中有效
+            {
+                value: '周一',    //单个类目名称
+                textStyle: {    // 突出周一
+                    fontSize: 20,
+                    color: 'red'
+                }
+            }, '周二', '周三', '周四', '周五', '周六', '周日'
+        ],
+        zlevel:0,
+        z:0    
+    }
+
+
+5),极坐标系，可以用于散点图和折线图
+   每个极坐标系拥有一个角度轴和一个半径轴----polar
+        polar : {
+            zlevel : 0,
+            z:2,
+            center : ['50%','50%'], //极坐标系的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。
+            radius : [] //极坐标系的半径 数组的第一项是内半径，第二项是外半径
+        }
+
+
+6),极坐标系的半径轴---radiusAxis
+        radiusAxis : {
+            polarIndex : 0,
+            type : "value",
+            name : '',
+            nameLocation : 'end',
+            nameTextStyle :{},
+            nameGap : 14,
+            naemRotate:null,
+            inverse : false,
+            boundaryGap:'',
+            min:"auto",
+            max:"auto",
+            scale:false,
+            splitNumber:5,
+            minInterval:0,
+            interval:'',
+            slilent:false,
+            triggerEvent:false,
+            axisLine:{},
+            axisTick:{},
+            axislabel:{},
+            splitLine:{},
+            splitArea:{},
+            data:[{}],
+            zlevel:0,
+            z:0
+        }
+
+
+7),极坐标系的角度轴---angleAxis
+
+
+8).自由关注细节的数据信息 --dataZoom
+    dataZoom : [
+        {
+            type : 'inside',    //内置于坐标系中
+            xAxisIndex : null,
+            yAxisIndex:null,
+            filterMode : "filter",
+            start:0,
+            end:100,
+            startValue : null,
+            endValue : null,
+            orient:null,
+            zoomLock:false,
+            throttle:100
+        },
+        {
+            type : 'slider',    //有单独的滑动条，用户在滑动条上进行缩放
+            show :true,
+            backgroundColor:"#ccc",
+            dataBackground:{    //数据阴影的样式
+                lineStyle:{},
+                areaStyle:{}
+            },
+            fillerColor:"#ccc", //选中范围的填充颜色
+            borderColor:"#ccc",
+            handelIcon:"",  //手柄的 icon 形状
+            handelSize:"100%",  //控制手柄的尺寸
+            handelStyle:{},
+            labelPrecision:"auto",
+            labelFormatter:null,
+            showDetail:true,
+            realtime:true,
+            textStyle:{},
+            xAxisIndex : null,
+            yAxisIndex:null,
+            filterMode : "filter",
+            start:0,
+            end:100,
+            startValue : null,
+            endValue : null,
+            orient:null,
+            zoomLock:false,
+            throttle:100,
+            zLevel:0,
+            z:2,
+            left:'auto',
+            right:'auto',
+            top:'auto',
+            bottom:'auto',
+        }
+    ]
+
+9).提示框组件--tooltip
+    tooltip : {
+        show :true,
+        showContent:true,
+        trigger:"item",
+        triggerOn:"mousemove",
+        alwaysShowContent:false,
+        showDelay:0,
+        hideDelay:100,
+        enterable:false,
+        position:"",
+        transitionDuration:0.4,
+        formatter:"",
+        backgroundColor:"#ccc",
+        borderColor:"#ccc",
+        borderWidth:0,
+        paddign:5,
+        textStyle:{},
+        extraCssText:"",
+        axisPointer:{   //坐标轴指示器配置项
+            type : "line" // line cross shadow
+            axis:"auto", //指示器的坐标轴 'x', 'y', 'radius', 'angle'
+            animation :true,
+            animationHereshold= 2000,
+            animationDuration:1000,
+            animationEasing: "cubicOut",
+            lingStyle:{},
+            crossStyle:{},
+            shadowStyle:{}
+        }
+    }
+
+
+10) 工具栏 内置有导出图片，数据视图，动态类型切换，数据区域缩放，重置五个工具。  
+
+    toolbox :{
+        show:true,
+        orient:"horizontal",    //vertical
+        itemSize:15,
+        itemGap:10, //工具栏 icon 每项之间的间隔
+        shwoTitle:true, //是否在鼠标 hover 的时候显示每个工具 icon 的标题
+        feature:{   //各工具配置项 自定义工具按钮    
+            myTool1: {
+                show: true,
+                title: '自定义扩展方法1',
+                icon: 'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891',
+                onclick: function (){
+                    alert('myToolHandler1')
+                }
+            },
+            myTool2: {
+                show: true,
+                title: '自定义扩展方法',
+                icon: 'image://http://echarts.baidu.com/images/favicon.png',
+                onclick: function (){
+                    alert('myToolHandler2')
+                }
+            }
+        },
+        iconStyle:{ //公用的 icon 样式设置
+            normal:{
+                color:"#ccc"
+            },
+            emphasis:{  //图形的颜色
+
+            }
+        },
+        zlevel:0,
+        z:2,
+        left:"auto",
+        top:"auto",
+        right:"auto",
+        bottom:"auto",
+        width:"auto",
+        height:"auto"
+    }  
+
+
+11),区域选择组件，用户可以选择图中一部分数据，从而便于向用户展示被选中数据 ----brush    
+    brush : {
+        ...
+    }
+
+
+12),地理坐标系组件 ----geo    
+    geo : {
+        ...
+    }
+
+13),提供了在多个 ECharts option 间进行切换、播放等操作的功能 ----timeline 组件    
+    timeline : {
+        ...
+    }
+
+14),系列列表。每个系列通过 type 决定自己的图表类型 ----series[i]   
+    series : [
+        { 
+
+        }
+    ]
+
+15).调色盘颜色列表。color
+    color:[
+        '#000'
+    ]
+
+16).背景色 
+        backgroundColor : ""
+    
+
+17).全局的字体样式
+    textStyle : {
+
+    }
+
+18.是否开启动画，默认开启
+    animation:true
+
+19.初始动画的时长
+    animationDuration : 1000
+
+20.初始动画的缓动效果
+    animationEasing
+
+</div>
+<style>
+ 
+
+</style>	
