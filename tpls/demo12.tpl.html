@@ -1,0 +1,316 @@
+<div class="container wrapContainer" ng-cloak>
+
+   <pre>
+       <code>
+            <h3>关于Angular那点事</h3>
+
+1. jqLite是什么？    
+这是jQuery库的子集，jqLite允许Angular以夸浏览器兼容的方式来维护DOM
+
+
+
+2.生产环境下使用的工具---Grunt
+   自动处理任务！
+    npm install -g grunt-cli
+    全局安装
+    通过一个文件来告诉grunt，做什么任务，运行什么：   gruntfile.js
+    通过package.json文件来告诉node, 要依赖什么文件， npm init生成
+    执行： npm install grunt --save-dev
+    (提示： --save-dev 意味着将grunt作为开发依赖保存)
+
+    
+
+3.压缩任务
+    uglify插件来处理：
+    npm install grunt-contrib-uglify --save-dev
+    现在可以去gruntfile文件配置，让grunt知道自己要干什么
+   module.exports = function(grunt){
+        grunt.initConfig({
+            pkg:grunt,file.readJSON('package.json'),
+            uglify:{
+                build:{
+                    src : "src/a.js",
+                    dest:"build/a.min.js"
+                }
+            }  
+        })
+        grunt.loadNpmTasks('grunt-contrib-uglify')
+    }
+    跑起来： grunt uglify
+
+
+4.Yeoman，脚手架工具，构建程序工作空间，快速构建新程序，具体使用方法自行搜索。
+
+
+
+5.性能优化
+    每一个可能改变的数据都有一个监控函数，限制不必要的监控的数量，可以提升性能，数据绑定不应该超过2000个
+    通过节流函数，限制每秒钟循环的数量可以很好的提升性能。
+
+
+
+6.优化$watch函数
+    避免复杂的逻辑，大量的循环下使用$watch方法
+    尽量不用这个函数，避免大量使用，避免使用的时候加入第三个参数true(意味着深度比较angular.equals())
+    使用完，移除$watch： 具体如下：
+    var unWatch  = $scope.$watch('obj',function(newObj){
+        if( obj.way == 1 ){
+            unWatch()//移除
+        }
+    })
+
+
+7.bindonce
+    这个库的作用是保留监控一次的指令，一旦数据可用，渲染内容，移除监控器。
+    具体使用方法在github上有，链接自己找
+
+
+8.angular在ie下是有问题的，需要适配的话，需要额外处理。
+  在IE下，xhr请求是缓存下来的，我们不要缓存，可以设置Caceh-Control为no-cache
+   angular.module('app').config(function($httpProvider){
+
+        $httpProvider.defaults.heads.common['Cache-Control'] = 'no-cache';
+
+    })
+
+9.Angular内置缓存服务
+    创建一个ID为myCache的缓存对象：
+    var cache = $cacheFactory('myCache');
+    获取缓存信息：
+    cache.info()
+    设置缓存：
+    cache.put('name1','hello');
+    获取键名对应的缓存值
+    cache.get('name1');
+    移除
+
+    cache.remove('name1');
+    cache.removeAll();
+    cache.destory();
+
+
+10.$http中的缓存
+
+    数据不常改变的，会有用：
+    $http({
+        method : 'GET',
+        url : 'a.json',
+        cache : true
+    })
+    操作这些缓存：
+    var cache = $cacheFactory('$http');
+    获取上一次请求的缓存：
+    var lastcache = cache.get('http://a.json');
+    删除：
+    cache.remove('http://a.json');
+
+
+
+11.AngularUi库
+
+    最有用的应该就是ui-router
+    说一个resolve，是一个对象，路由在渲染之前，解析promise到控制器中的依赖中去， 直接上例子：
+    $stateProvider.state('home',{
+        resolve : {
+            person : function(){
+                return {
+                    name ："jack"
+                }
+            },
+            detail : function($http){
+                return $http({
+                    method : "jsonp",
+                    url : "x.json"
+                })
+            } 
+        }
+    })
+    嵌套路由：
+    /index/1 匹配第一个状态
+    /index/1/inner    匹配第二个状态
+
+    $stateProvider
+        .state('index',{
+            url : "/index/:id",
+            template : "&lt;div>&lt;a ui-sref='index.inner'>inner&lt;/a>&lt;/div>&lt;div ui-view>&lt;/div>",
+            controller : function($scope. $stateParams){
+                $scope.id = $stateParams.id;
+            }
+        })
+        .state('index.inner',{
+            url : "/inner",
+            template : "&lt;h1>inner___&lt;h1>"
+        })
+        ui-route事件:
+
+        当状态发生改变：
+
+    $scope.$on('$stateChangeStart',function(evt, toState, roParams, fromState, fromParams){
+                evt.preventDefault();//阻止来这个状态的完成
+    })
+    视图加载事件：
+    $scope.$on('$viewContentLoading', function(event, viewConfig){
+    })
+        
+
+   2.ui-utils
+    这是一个功能强大的工具包
+    bower install --save angular-ui-utils
+    ui-utils里面的每一个组件都是一个独立模块，需要单独引入。
+    在angular-ui-utils/modules/目录下：
+    1）.mask.js
+    关于接收特殊格式的信息
+        angular.module('app',['ui.mask']);   
+        &lt;input name="test" ui-mask="999999" ng-model="aa"/>
+    2).ui-event.js
+        angular.module('app',['ui.event']);  
+        比较特殊的事件，angular自身不支持的话， 可以用这个
+        &lt;img src="js.jpg" ui-event="{dbclick:'show()'}"/>
+        &lt;input type='text' name="name" ui-event="{focus:'show=true',blur:'show=false'}"/>
+
+    
+3.当浏览器触发DOMContentLoaded事件，Angular就开始工作，首先寻找ng-app指令
+    如果找到了，会自动启动应用，
+    如果没有找到，可以手动启动应用：
+        var e = document.querySelector('body');
+        angular.bootstrap(e,['app']);
+    如果没有找到也没有手动启动，则不会运行
+
+
+
+4.Angular后台工作    
+    标准浏览器中，当事件被触发的时候，浏览器会执行一个回调函数，这个回调函数就是注册给该事件的回调函数
+    在这个过程中，javascript创建来一个事件对象，并且执行这个事件对象所在的监听的事件。
+    这么一个流程中，我们加入angular， 它会扩展这个流程，创建了一个angular上下文，所谓的上下文，指的是
+    运行在Angular事件循环内的特定的代码，而Angular事件循环通常被称作$digest循环
+    1）.$digest循环
+        包含2部分， $watch 和 $evalAsync
+        为了更新视图，Angular需要追踪变化，使用$watch添加监控函数做到这一点，
+        脏值检查：
+          页面上input元素输入，会进入$digest循环，跟旧值比较，发现有更新，则dirty为true,这时需要再次进入$digest循环，发现已经没有更新了，那好，DOM重绘。
+        永远不要再控制器里使用$watch,会导致控制器难测试，应该移到相应的服务中。
+    2）.$apply
+        $apply()函数， 从Angular框架外部，让表达式在angular上下文内部执行。
+        用settimeout 或者第三方库， 想让事件运行在angular上下文内部，必须使用$apply()
+        $scope.$apply(function(){
+            $scope.name = 'jack';
+        })
+
+        总之，$apply()可以从外部进入上下文
+        什么时候使用？
+        所有ng-x指令都会调用$apply()
+        如果手动处理事件，使用第三方框架，或者调用setTimeout(),都可以使用$apply使得angualr返回$digest循环
+        不要再控制器中使用$apply()
+        jQuery和Angular集成一起，通常叫肮脏行为
+        需要使用$apply(),不然的话，angular不会知道angular上下文外部的事件，
+        指令：
+            app.directive('new',function(){
+                return function(scope, ele, attr, ctrl){
+                        e.onclick(function(ev){
+                              scope.$apply(function(){
+                                    //xx
+                              })    
+                        })     
+                }
+            })
+
+
+5.模块化：  
+    模块是Angular应用的核心功能，不同的功能定义不同模块：
+    譬如
+        angular.module('app',['app.home','app.login'])
+    这样的话，我们可以集中区实现每一个模块的具体功能，划分明确，
+    如果其他地方需要这个模块，完全可以引入这个模块。
+
+    控制器里尽量保持精简，不要什么都写到里面去，会特混乱，可以移到指令去。
+
+
+6.服务器通信
+    定一个来处理请求的模块：
+    angular
+        .module('app.services',[])
+        .factory('service1', service1);
+    service1.$injector = ['$q','$http'];
+    function service1($q, $http){
+            var service  = {
+                count ： function（）{
+                    var d = $q.defer();
+                    $http.get('/count')
+                        .success(function(data, status){
+                            d.resolve(data)
+                        })
+                        .errror(function(data, status){
+                            d.reject(data)
+                        });
+                    return d.promise;
+                },
+                allInfo ： function（）{
+                    var d = $q.defer();
+                    $http.get('/allInfo')
+                        .success(function(data, status){
+                            d.resolve(data)
+                        })
+                        .errror(function(data, status){
+                            d.reject(data)
+                        });
+                    return d.promise;
+                }
+            }
+            return service;
+    }
+
+    在我们的功能模块中，引入这个服务模块，并在控制器中注入服务、使用：
+        angular
+            .module('app.home',['ngRoute','app.services'])
+            .controller('HomeController', homeController);
+
+        homeController.$injector = ['service1'];
+        function homeController(service1){
+            service1
+                .count()
+                .then(function(data){
+                    console.log(data)
+                });
+
+            service1
+                .allInfo()
+                .then(function(data){
+                    console.log(data)
+                })
+        }
+
+
+ 7.Promise
+    promise是一个异步处理返回值的方式，它是一个对象
+    常规做法，通过回调来处理，但使用回调很痛苦
+    为了逃脱回调地狱，我们使用promise方式
+    它本质是保持来代码异步运行的能力
+    怎么创建一个promise?
+    使用内置的$q服务，首先我们把$q服务注入进来
+    然后创建一个deferred对象
+    var deferred = $q.defer();
+    deferred暴露三个方法
+        /*用值来执行deferred promise*/
+        deferred.resolve({name:"jack"});
+        /*用拒绝执行promise*/
+
+    无论promise成功还是拒绝，当结果可用的时候，then都会立即异步调用其中的回调函数， 而且then()方法总是返回一个新的promise
+       </code>
+   </pre>
+
+
+</div>
+<style>
+    md-content{
+        max-height:800px;
+        overflow: auto ;
+    }
+    .face{
+        border-radius: 30px;
+        border: 1px solid #ddd;
+        width: 48px;
+        margin: 16px;
+    }
+
+
+</style>

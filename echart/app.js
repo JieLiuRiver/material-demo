@@ -142,6 +142,17 @@ dataMap.dataFinancial = dataFormatter({
             return factory;
         })
 
+        .factory('highlightInit', function(){
+            return function(){
+                setTimeout(function(){
+                    hljs.initHighlightingOnLoad();
+                    $('pre code').each(function(i, block) {
+                        hljs.highlightBlock(block);
+                    });
+                },500)
+            }
+        })
+
         /*wrap控制器*/
         .controller('WrapCtrl',wrapController)
 
@@ -160,6 +171,9 @@ dataMap.dataFinancial = dataFormatter({
 
         /*demo5控制器*/
         .controller('Demo5.Controller',demo5Controller)
+
+        /*demo6控制器*/
+        .controller('Demo6.Controller',demo6Controller)
 
 })();
 
@@ -224,14 +238,25 @@ function routeConfig($stateProvider, $urlRouterProvider){
                 }
             }
         })
+        .state('demo6',{
+            url : "/demo6",
+            views : {
+                'main' : {
+                    templateUrl : "../echart-tpls/demo6.html",
+                    controller : 'Demo6.Controller',
+                    controllerAs :　"vm"
+                }
+            }
+        })
 }
 /*依赖注入*/
 wrapController.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService'];
-demo1Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart'];
-demo2Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart'];
-demo3Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart'];
-demo4Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart'];
-demo5Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart'];
+demo1Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart','highlightInit'];
+demo2Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart','highlightInit'];
+demo3Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart','highlightInit'];
+demo4Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart','highlightInit'];
+demo5Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart','highlightInit'];
+demo6Controller.$inject = ['$scope','$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','initEChart','highlightInit'];
 
 /*构造函数*/
 /*管理wrap*/
@@ -242,7 +267,8 @@ function wrapController($state, $rootScope, $modal, $alert, $http, $timeout, uti
             {  itemName : "地图", newState : 'demo2'},
             {  itemName : "饼状图", newState : 'demo3'},
             {  itemName : "散点图", newState : 'demo4'},
-            {  itemName : "参数配置", newState : 'demo5'}
+            {  itemName : "参数配置", newState : 'demo5'},
+            {  itemName : "应用", newState : 'demo6'}
         ];
         vm.itemActive = '选择EChart表';
         vm.changeView = changeView;
@@ -254,8 +280,9 @@ function wrapController($state, $rootScope, $modal, $alert, $http, $timeout, uti
         }
 }
 /*管理demo1*/
-function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart){
+function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart, highlightInit){
     var vm = this;
+    highlightInit()
     vm.option1 = {
         tooltip : {
             trigger: 'axis',
@@ -634,10 +661,10 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
                     'type':'category',
                     'axisLabel':{'interval':0},
                     'data':[
-                        '北京','\n天津','河北','\n山西','内蒙古','\n辽宁','吉林','\n黑龙江',
-                        '上海','\n江苏','浙江','\n安徽','福建','\n江西','山东','\n河南',
-                        '湖北','\n湖南','广东','\n广西','海南','\n重庆','四川','\n贵州',
-                        '云南','\n西藏','陕西','\n甘肃','青海','\n宁夏','新疆'
+                        '北京','天津','河北','山西','内蒙古','辽宁','吉林','黑龙江',
+                        '上海','江苏','浙江','安徽','福建','江西','山东','河南',
+                        '湖北','湖南','广东','广西','海南','重庆','四川','贵州',
+                        '云南','西藏','陕西','甘肃','青海','宁夏','新疆'
                     ],
                     splitLine: {show: false}
                 }
@@ -665,7 +692,7 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
         },
         options: [
             {
-                title: {text: '2002全国宏观经济指标'},
+                title: {text: ''},
                 series: [
                     {data: dataMap.dataGDP['2002']},
                     {data: dataMap.dataFinancial['2002']},
@@ -681,7 +708,7 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
                 ]
             },
             {
-                title : {text: '2003全国宏观经济指标'},
+                title : {text: ''},
                 series : [
                     {data: dataMap.dataGDP['2003']},
                     {data: dataMap.dataFinancial['2003']},
@@ -697,7 +724,7 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
                 ]
             },
             {
-                title : {text: '2004全国宏观经济指标'},
+                title : {text: ''},
                 series : [
                     {data: dataMap.dataGDP['2004']},
                     {data: dataMap.dataFinancial['2004']},
@@ -713,7 +740,7 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
                 ]
             },
             {
-                title : {text: '2005全国宏观经济指标'},
+                title : {text: ''},
                 series : [
                     {data: dataMap.dataGDP['2005']},
                     {data: dataMap.dataFinancial['2005']},
@@ -729,7 +756,7 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
                 ]
             },
             {
-                title : {text: '2006全国宏观经济指标'},
+                title : {text: ''},
                 series : [
                     {data: dataMap.dataGDP['2006']},
                     {data: dataMap.dataFinancial['2006']},
@@ -745,7 +772,7 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
                 ]
             },
             {
-                title : {text: '2007全国宏观经济指标'},
+                title : {text: ''},
                 series : [
                     {data: dataMap.dataGDP['2007']},
                     {data: dataMap.dataFinancial['2007']},
@@ -761,7 +788,7 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
                 ]
             },
             {
-                title : {text: '2008全国宏观经济指标'},
+                title : {text: ''},
                 series : [
                     {data: dataMap.dataGDP['2008']},
                     {data: dataMap.dataFinancial['2008']},
@@ -777,7 +804,7 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
                 ]
             },
             {
-                title : {text: '2009全国宏观经济指标'},
+                title : {text: ''},
                 series : [
                     {data: dataMap.dataGDP['2009']},
                     {data: dataMap.dataFinancial['2009']},
@@ -793,7 +820,7 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
                 ]
             },
             {
-                title : {text: '2010全国宏观经济指标'},
+                title : {text: ''},
                 series : [
                     {data: dataMap.dataGDP['2010']},
                     {data: dataMap.dataFinancial['2010']},
@@ -809,7 +836,7 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
                 ]
             },
             {
-                title : {text: '2011全国宏观经济指标'},
+                title : {text: ''},
                 series : [
                     {data: dataMap.dataGDP['2011']},
                     {data: dataMap.dataFinancial['2011']},
@@ -917,8 +944,9 @@ function demo1Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
 }
 
 /*管理demo2*/
-function demo2Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart){
+function demo2Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart, highlightInit){
     var vm = this;
+    highlightInit()
     vm.option21 = {
         title: {
             text: 'iphone销量',
@@ -1104,8 +1132,9 @@ function demo2Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
 }
 
 /*管理demo3*/
-function demo3Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart){
+function demo3Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart, highlightInit){
     var vm = this;
+    highlightInit()
     vm.option31 = {
         backgroundColor: '#2c343c',
 
@@ -1326,12 +1355,13 @@ function demo3Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
 }
 
 /*管理demo4*/
-function demo4Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart){
+function demo4Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart,highlightInit){
     var vm = this;
     var data1 = [
         [[28604,77,17096869,'Australia',1990],[31163,77.4,27662440,'Canada',1990],[1516,68,1154605773,'China',1990],[13670,74.7,10582082,'Cuba',1990],[28599,75,4986705,'Finland',1990],[29476,77.1,56943299,'France',1990],[31476,75.4,78958237,'Germany',1990],[28666,78.1,254830,'Iceland',1990],[1777,57.7,870601776,'India',1990],[29550,79.1,122249285,'Japan',1990],[2076,67.9,20194354,'North Korea',1990],[12087,72,42972254,'South Korea',1990],[24021,75.4,3397534,'New Zealand',1990],[43296,76.8,4240375,'Norway',1990],[10088,70.8,38195258,'Poland',1990],[19349,69.6,147568552,'Russia',1990],[10670,67.3,53994605,'Turkey',1990],[26424,75.7,57110117,'United Kingdom',1990],[37062,75.4,252847810,'United States',1990]],
         [[44056,81.8,23968973,'Australia',2015],[43294,81.7,35939927,'Canada',2015],[13334,76.9,1376048943,'China',2015],[21291,78.5,11389562,'Cuba',2015],[38923,80.8,5503457,'Finland',2015],[37599,81.9,64395345,'France',2015],[44053,81.1,80688545,'Germany',2015],[42182,82.8,329425,'Iceland',2015],[5903,66.8,1311050527,'India',2015],[36162,83.5,126573481,'Japan',2015],[1390,71.4,25155317,'North Korea',2015],[34644,80.7,50293439,'South Korea',2015],[34186,80.6,4528526,'New Zealand',2015],[64304,81.6,5210967,'Norway',2015],[24787,77.3,38611794,'Poland',2015],[23038,73.13,143456918,'Russia',2015],[19360,76.5,78665830,'Turkey',2015],[38225,81.4,64715810,'United Kingdom',2015],[53354,79.1,321773631,'United States',2015]]
     ];
+    highlightInit()
     var data = [
          {name: '海门', value: 9},
          {name: '鄂尔多斯', value: 12},
@@ -1936,6 +1966,270 @@ function demo4Controller($scope, $state, $rootScope, $modal, $alert, $http, $tim
 }
 
 /*管理demo5*/
-function demo5Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart){
-    
+function demo5Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart,highlightInit){
+    highlightInit()
+}
+
+/*管理demo6*/
+function demo6Controller($scope, $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, initEChart,highlightInit){
+    highlightInit()
+
+    var vm = this;  merchantTrendParse
+    vm.option61 = {
+                    baseOption: {
+                    timeline: {
+                        // y: 0,
+                        axisType: 'category',
+                        // realtime: false,
+                        // loop: false,
+                        autoPlay: true,
+                        // currentIndex: 2,
+                        playInterval: 1000,
+                        // controlStyle: {
+                        //     position: 'left'
+                        // },
+                        data: [
+                            '2002-01-01','2003-01-01','2004-01-01',
+                            '2005-01-01',
+                            '2006-01-01', '2007-01-01','2008-01-01','2009-01-01','2010-01-01',
+                            '2011-01-01',
+                        ],
+                        label: {
+                            formatter : function(s) {
+                                return (new Date(s)).getFullYear();
+                            }
+                        }
+                    },
+                    title: {
+                        subtext: ''
+                    },
+                    tooltip: {
+                        show: true
+                    },
+                    legend: {
+                        top : 0,
+                        right : 50,
+                        align  :'auto',
+                        itemGap:20,
+                        selectedMode : true,
+                        data: ['发货付款', '第二产业', '第三产业', 'GDP', '金融', '房地产'],//['发货付款', '发货月结', '货到付款', '代收货款', '货到付款', '代收货款'],
+                        selected: {
+                            '第一产业' : false,
+                            '第二产业' : false,
+                            '第三产业' : false,
+                            'GDP' : false,
+                            '金融' : false,
+                            '房地产' : false
+                        }
+                    },
+                    calculable : true,
+                    grid: {
+                        top: 80,
+                        bottom: 100
+                    },
+                    xAxis: [
+                        {
+                            'type':'category',
+                            'axisLabel':{'interval':0},
+                            'data':[
+                                '北京','\n天津','河北','\n山西','内蒙古','\n辽宁','吉林','\n黑龙江',
+                                '上海','\n江苏','浙江','\n安徽','福建','\n江西','山东','\n河南',
+                                '湖北','\n湖南','广东','\n广西','海南','\n重庆','四川','\n贵州',
+                                '云南','\n西藏','陕西','\n甘肃','青海','\n宁夏','新疆'
+                            ],
+                            splitLine: {show: false}
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '订单量(笔数)'
+                        }
+                    ],
+                    series: [
+                        {name: 'GDP', type: 'bar'},
+                        {name: '金融', type: 'bar'},
+                        {name: '房地产', type: 'bar'},
+                        {name: '发货付款', type: 'bar'},
+                        {name: '第二产业', type: 'bar'},
+                        {name: '第三产业', type: 'bar'},
+                        {name: '第一产业', type: 'bar'},
+                        {
+                            name: 'GDP占比',
+                            type: 'bar',
+                            center: ['75%', '35%'],
+                            radius: '28%'
+                        }
+                    ]
+                },
+                options: [
+                    {
+                        title: {text: ''},
+                        series: [
+                            {data: dataMap.dataGDP['2002']},
+                            {data: dataMap.dataFinancial['2002']},
+                            {data: dataMap.dataEstate['2002']},
+                            {data: dataMap.dataPI['2002']},
+                            {data: dataMap.dataSI['2002']},
+                            {data: dataMap.dataTI['2002']},
+                            {data: [
+                                {name: '第一产业', value: dataMap.dataPI['2002sum']},
+                                {name: '第二产业', value: dataMap.dataSI['2002sum']},
+                                {name: '第三产业', value: dataMap.dataTI['2002sum']}
+                            ]}
+                        ]
+                    },
+                    {
+                        title : {text: ''},
+                        series : [
+                            {data: dataMap.dataGDP['2003']},
+                            {data: dataMap.dataFinancial['2003']},
+                            {data: dataMap.dataEstate['2003']},
+                            {data: dataMap.dataPI['2003']},
+                            {data: dataMap.dataSI['2003']},
+                            {data: dataMap.dataTI['2003']},
+                            {data: [
+                                {name: '第一产业', value: dataMap.dataPI['2003sum']},
+                                {name: '第二产业', value: dataMap.dataSI['2003sum']},
+                                {name: '第三产业', value: dataMap.dataTI['2003sum']}
+                            ]}
+                        ]
+                    },
+                    {
+                        title : {text: ''},
+                        series : [
+                            {data: dataMap.dataGDP['2004']},
+                            {data: dataMap.dataFinancial['2004']},
+                            {data: dataMap.dataEstate['2004']},
+                            {data: dataMap.dataPI['2004']},
+                            {data: dataMap.dataSI['2004']},
+                            {data: dataMap.dataTI['2004']},
+                            {data: [
+                                {name: '第一产业', value: dataMap.dataPI['2004sum']},
+                                {name: '第二产业', value: dataMap.dataSI['2004sum']},
+                                {name: '第三产业', value: dataMap.dataTI['2004sum']}
+                            ]}
+                        ]
+                    },
+                    {
+                        title : {text: ''},
+                        series : [
+                            {data: dataMap.dataGDP['2005']},
+                            {data: dataMap.dataFinancial['2005']},
+                            {data: dataMap.dataEstate['2005']},
+                            {data: dataMap.dataPI['2005']},
+                            {data: dataMap.dataSI['2005']},
+                            {data: dataMap.dataTI['2005']},
+                            {data: [
+                                {name: '第一产业', value: dataMap.dataPI['2005sum']},
+                                {name: '第二产业', value: dataMap.dataSI['2005sum']},
+                                {name: '第三产业', value: dataMap.dataTI['2005sum']}
+                            ]}
+                        ]
+                    },
+                    {
+                        title : {text: ''},
+                        series : [
+                            {data: dataMap.dataGDP['2006']},
+                            {data: dataMap.dataFinancial['2006']},
+                            {data: dataMap.dataEstate['2006']},
+                            {data: dataMap.dataPI['2006']},
+                            {data: dataMap.dataSI['2006']},
+                            {data: dataMap.dataTI['2006']},
+                            {data: [
+                                {name: '第一产业', value: dataMap.dataPI['2006sum']},
+                                {name: '第二产业', value: dataMap.dataSI['2006sum']},
+                                {name: '第三产业', value: dataMap.dataTI['2006sum']}
+                            ]}
+                        ]
+                    },
+                    {
+                        title : {text: ''},
+                        series : [
+                            {data: dataMap.dataGDP['2007']},
+                            {data: dataMap.dataFinancial['2007']},
+                            {data: dataMap.dataEstate['2007']},
+                            {data: dataMap.dataPI['2007']},
+                            {data: dataMap.dataSI['2007']},
+                            {data: dataMap.dataTI['2007']},
+                            {data: [
+                                {name: '第一产业', value: dataMap.dataPI['2007sum']},
+                                {name: '第二产业', value: dataMap.dataSI['2007sum']},
+                                {name: '第三产业', value: dataMap.dataTI['2007sum']}
+                            ]}
+                        ]
+                    },
+                    {
+                        title : {text: ''},
+                        series : [
+                            {data: dataMap.dataGDP['2008']},
+                            {data: dataMap.dataFinancial['2008']},
+                            {data: dataMap.dataEstate['2008']},
+                            {data: dataMap.dataPI['2008']},
+                            {data: dataMap.dataSI['2008']},
+                            {data: dataMap.dataTI['2008']},
+                            {data: [
+                                {name: '第一产业', value: dataMap.dataPI['2008sum']},
+                                {name: '第二产业', value: dataMap.dataSI['2008sum']},
+                                {name: '第三产业', value: dataMap.dataTI['2008sum']}
+                            ]}
+                        ]
+                    },
+                    {
+                        title : {text: ''},
+                        series : [
+                            {data: dataMap.dataGDP['2009']},
+                            {data: dataMap.dataFinancial['2009']},
+                            {data: dataMap.dataEstate['2009']},
+                            {data: dataMap.dataPI['2009']},
+                            {data: dataMap.dataSI['2009']},
+                            {data: dataMap.dataTI['2009']},
+                            {data: [
+                                {name: '第一产业', value: dataMap.dataPI['2009sum']},
+                                {name: '第二产业', value: dataMap.dataSI['2009sum']},
+                                {name: '第三产业', value: dataMap.dataTI['2009sum']}
+                            ]}
+                        ]
+                    },
+                    {
+                        title : {text: ''},
+                        series : [
+                            {data: dataMap.dataGDP['2010']},
+                            {data: dataMap.dataFinancial['2010']},
+                            {data: dataMap.dataEstate['2010']},
+                            {data: dataMap.dataPI['2010']},
+                            {data: dataMap.dataSI['2010']},
+                            {data: dataMap.dataTI['2010']},
+                            {data: [
+                                {name: '第一产业', value: dataMap.dataPI['2010sum']},
+                                {name: '第二产业', value: dataMap.dataSI['2010sum']},
+                                {name: '第三产业', value: dataMap.dataTI['2010sum']}
+                            ]}
+                        ]
+                    },
+                    {
+                        title : {text: ''},
+                        series : [
+                            {data: dataMap.dataGDP['2011']},
+                            {data: dataMap.dataFinancial['2011']},
+                            {data: dataMap.dataEstate['2011']},
+                            {data: dataMap.dataPI['2011']},
+                            {data: dataMap.dataSI['2011']},
+                            {data: dataMap.dataTI['2011']},
+                            {data: [
+                                {name: '第一产业', value: dataMap.dataPI['2011sum']},
+                                {name: '第二产业', value: dataMap.dataSI['2011sum']},
+                                {name: '第三产业', value: dataMap.dataTI['2011sum']}
+                            ]}
+                        ]
+                    }
+                ]
+    };
+
+    initEChart
+        .render({
+            id : $("#demo61").get(0),
+            option : vm.option61
+        })
+
 }

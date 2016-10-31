@@ -1,0 +1,349 @@
+
+<div class="container wrapContainer">
+
+	<treecontrol class="tree-classic pull-left"
+				 tree-model="vm.dataForTheTree"
+				 options="vm.treeOptions"
+				 on-selection="vm.showSelected(node)"
+				 selected-node="node1" style="position: fixed;top:82px;left:122px;"> 
+		{{node.title}}
+	</treecontrol>
+
+    <pre class="pull-right">
+        <code>
+<!-- 文本内容 -->
+				Laravel文档
+
+1.关于路由：Http目录下的routes.php文件，或者最新版的routes文件夹下的web.php等文件
+	
+	1).基本使用：
+		Route::get('/', function () {
+		    return 'Hello World';
+		});
+		Route::post('foo/bar', function () {
+		    return 'Hello World';
+		});
+		Route::put('foo/bar', function () {
+		    //
+		});
+		Route::delete('foo/bar', function () {
+		    //
+		});
+
+	2). 需求：get/post方式都能访问,
+		方案：
+		Route::match(['get', 'post'], '/', function () {
+		    return 'Hello World';
+		});
+		或者注册一个所有http访问方式都能访问的路由：
+		Route::any('foo', function () {
+		    return 'Hello World';
+		});
+
+	3). 需求：能获取到url的部分的参数
+		方案：
+		单个参数:
+		Route::get('user/{id}', function ($id) {
+			return 'User '.$id;
+		});
+		多个参数：
+		Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
+		    //
+		});
+
+	4). 需求： 命名路由，方便生成路由或者重定向
+		方案：
+		Route::get('user/profile', 'UserController@showProfile')->name('profile');
+		如何应用到重定向:
+		$url = route('profile');
+		$redirect = redirect()->route('profile');
+		注意：对于配置参数的路由，我们可以通过route()方法的第二个参数array，来指定要获取的url是对应哪个参数值的：
+		$url = route('profile', ['id' => 1]);
+
+	5). 需求：路由组的使用是怎样的
+		方案：
+		Route::group(['as' => 'admin::'], function () {
+		    Route::get('dashboard', ['as' => 'dashboard', function () {
+		        // Route named "admin::dashboard"
+		    }]);
+		});
+
+		Route::group(['namespace' => 'Admin'], function()
+		{
+		    // Controllers Within The "App\Http\Controllers\Admin" Namespace
+		    Route::group(['namespace' => 'User'], function()
+		    {
+		        // Controllers Within The "App\Http\Controllers\Admin\User" Namespace
+		    });
+		});
+
+	6).  需求：路由前缀都一样，不想重复写
+		方案：
+		譬如说，你希望访问的路由都具有admin前缀的，可以这样写：
+		Route::group(['prefix' => 'admin'], function () {
+		    Route::get('users', function ()    {
+		        // Matches The "/admin/users" URL
+		    });
+		});
+
+
+2.关于中间件
+	1).作用：
+	1.检查用户访问有没有经过身份验证，如果没有，重定向到登陆页面。
+	2.执行其他任务，譬如保护，增加头部信息
+
+	2).位于：
+	app/Http/Middleware/
+
+	3).如何定义中间件？
+		首先执行如下命令，~/Middleware/目录下在生成一个新的中间件
+		php artisan make:middleware OldMiddleware
+
+		如果用户给出的 age 小于或等于 200，中间件会给客户端返回一个 HTTP 重定向；
+		否则，请求会继续在应用程序中执行下去。只用调用带有 $request 的 $next 方法，
+		就可以将请求继续在应用中传递到更深层的逻辑（允许跳过中间件）
+		public function handle($request, Closure $next){
+			if ($request->input('age') <= 200) {
+			    return redirect('home');
+			}
+
+			return $next($request);
+		}
+
+	4).中间件你到底是在请求前干活还是在请求后干活
+		/*前置操作*/
+		&lt;?php
+		namespace App\Http\Middleware;
+		use Closure;
+		class BeforeMiddleware
+		{
+		    public function handle($request, Closure $next)
+		    {
+		        // Perform action
+
+		        return $next($request);
+		    }
+		}
+		/*后置操作*/
+		&lt;?php
+		namespace App\Http\Middleware;
+		use Closure;
+		class AfterMiddleware
+		{
+		    public function handle($request, Closure $next)
+		    {
+		        $response = $next($request);
+
+		        // Perform action
+
+		        return $response;
+		    }
+		}
+
+
+	5).中间件如何绑定到特定的路由去？
+		首先在app/Http/Kernel.php 文件中指定一个键值：
+		protected $routeMiddleware = [
+		    'auth' => \App\Http\Middleware\Authenticate::class,
+		    'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+		    'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+		];
+
+		其次，在路由选项数组中使用 middleware 键来指派：
+		单个中间件
+		Route::get('admin/profile', ['middleware' => 'auth', function () {
+		    //
+		}]);
+		多个中间件
+		Route::get('/', ['middleware' => ['first', 'second'], function () {
+		    //
+		}])
+		也可以写成这样：
+		Route::get('/', function () {
+		    //
+		}])->middleware(['first', 'second']);
+
+
+3.关于控制器
+	1).作用：
+		请求处理的逻辑集合的一个类
+
+	2).位于：
+		app/Http/Controllers/
+
+	3).基础控制器：
+		&lt;?php
+
+		namespace App\Http\Controllers;
+
+		use App\User;
+		use App\Http\Controllers\Controller;
+
+		class UserController extends Controller
+		{
+		    /**
+		     * 显示指定用户的个人信息
+		     * 
+		     * @param  int  $id
+		     * @return Response
+		     */
+		    public function showProfile($id)
+		    {
+		        return view('user.profile', ['user' => User::findOrFail($id)]);
+		    }
+		}
+
+	4).路由中指定控制器的某个方法，路由的参数也会传递到具体的方法中去：
+		Route::get('user/{id}', 'UserController@showProfile');
+
+	5).路径：
+		如果你选择利用 PHP 的命名空间机制以嵌套的方式组织控制器在 App\Http\Controllers 目录下的结构的话，引用类时只需指定相对于 App\Http\Controllers 根命名空间的类名即可。因此，如果你的控制器类的全名是 App\Http\Controllers\Photos\AdminController 的话，只需像下面这样注册路由即可
+		Route::get('foo', 'Photos\AdminController@method');
+
+
+4.关于请求
+	1).在控制器中，首先应该把request注入进来：
+		use Illuminate\Http\Request;
+
+	2). url参数传进来，要拿到，先注入这个：
+		use Illuminate\Routing\Controller;
+
+	3). 基础：
+		class UserController extends Controller{
+		    public function store(Request $request)
+		    {
+		        $name = $request->input('name');
+		    }
+		}
+
+	4). 获取信息
+		$uri = $request->path();
+
+		判断url是否有传参数：
+		if ($request->is('admin/*')) {
+		    //
+		}
+
+		判断是什么方式进来的：
+		if ($request->isMethod('post')) {
+		    //
+		}
+
+		综合应用：
+		$name = $request->input('name');
+		$name = $request->name;
+		$name = $request->input('name', 'Sally');
+		if ($request->has('name')) {
+		    //
+		}
+		$input = $request->all();
+		$input = $request->only(['username', 'password']);
+		$input = $request->only('username', 'password');
+		$input = $request->except(['credit_card']);
+		$input = $request->except('credit_card');
+		$value = $request->cookie('name');
+		$file = $request->file('photo');
+		if ($request->hasFile('photo')) {
+		    //
+		}
+		干掉session
+		$request->flash();
+
+
+5.关于响应
+	1).给浏览器返回数据：
+		Route::get('/', function () {
+		    return 'Hello World';
+		});
+
+	2).使用response方法
+		首先注入：
+			use Illuminate\Http\Response;
+
+		使用：
+			Route::get('home', function () {
+			    return response($content, $status)
+			                  ->header('Content-Type', $value);
+			});
+
+			带上cookie返回：
+			return response($content)->header('Content-Type', $type)
+			                 ->withCookie('name', 'value');
+
+			return response()->view('hello', $data)->header('Content-Type', $type);
+
+			返回json
+			return response()->json(['name' => 'Abigail', 'state' => 'CA']);
+
+			文件下载返回：
+			return response()->download($pathToFile);
+			return response()->download($pathToFile, $name, $headers);
+
+			返回重定向：
+			Route::get('dashboard', function () {
+			    return redirect('home/dashboard');
+			});
+			返回上一个
+			Route::post('user/profile', function () {
+			    return back()->withInput();
+			});
+
+			//重定向到路由
+			return redirect()->route('login');
+			return redirect()->route('profile', [1]);	
+
+
+6.关于视图
+	1).	待渲染的HTML数据
+
+	2).位于： resources/views目录中
+
+	3).简单例子：
+		
+		视图：
+		&lt;html>
+		    &lt;body>
+		        &lt;h1>Hello, <?php echo $name; ?>&lt;/h1>
+		    &lt;/body>
+		&lt;/html>
+		
+		应用：
+		Route::get('/', function ()    {
+		    return view('greeting', ['name' => 'James']);
+		});
+
+	4).引用视图
+		位于：
+		resoureces/views/admin/profile.php
+		应用：
+		return view('admin.profile', $data);
+
+	5).判断视图是否存在
+		if (view()->exists('emails.customer')) {
+		    //
+		}
+
+	6).向视图传递数据的另外一个方法：
+		$view = view('greeting')->with('name', 'Victoria');
+
+
+<!-- 文本内容 -->
+        </code>
+    </pre>
+</div>
+<style>
+	pre{
+		width:80%;
+	}
+	code{
+		margin-top:-50px;
+	}
+	treecontrol li{
+		line-height: 36px;
+	    font-size: 14px;
+	    color: #000;
+	}
+	treecontrol.tree-classic li.tree-leaf i.tree-leaf-head{
+		background-position: 2px;
+	}
+</style>

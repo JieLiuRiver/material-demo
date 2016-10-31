@@ -1,0 +1,89 @@
+
+<div class="container wrapContainer">
+
+	<div class="row" style="padding-left:50px; padding-right:50px;">
+		<div class="pull-left" style="width:800px;height:500px;background:#2c2e31;line-height:500px;position:relative;text-align:center;">
+			<span style="color:#fff;display:inline-block; font-size:18px;height: 50px;line-height: 50px;position: absolute;top:calc( 30% ); left:calc( 50% - 65px )">距离发布会还有</span>
+			<h1 ng-bind="vm.countdown" style="color:#fff;display:inline-block; font-size:60px;"></h1>
+			<code>{{vm.height}}</code>
+		</div>
+		<div class="pull-right mifansay" style="position:relative">
+			<ul ng-style="heightstyle" id="list">
+				<li ng-repeat="user in vm.users">
+					<a href="javascript:;" class="mifanname"><span ng-bind="user.mifanname"></span><span>:</span></a>
+					<span class="word" ng-bind="user.word"></span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<style>
+	pre{
+		width:80%;
+	}
+	code{
+		margin-top:-50px;
+	}
+	treecontrol li{
+		line-height: 36px;
+	    font-size: 14px;
+	    color: #000;
+	}
+	treecontrol.tree-classic li.tree-leaf i.tree-leaf-head{
+		background-position: 2px;
+	}
+	.wrapContainer{
+		border:0;
+		margin-top:0;
+		padding-top:50px;
+	}
+	.mifansay{
+		background:#333333;width:230px;height:500px;overflow:hidden;
+
+	}
+	ul{
+		padding:0;
+		margin:0;
+		position:absolute;
+		bottom:0;
+		left:0;
+	}
+	.mifansay li{
+		width:100%;
+		height:30px;
+		line-height:30px;
+		list-style: none;
+		position:relative;
+		padding-top:5px;
+		padding-bottom:5px;
+	}
+	.mifansay li .mifanname{
+		display:inline-block;
+		height:100%;
+		line-height:30px;
+		color:#f60;
+		font-weight:bold;
+		max-width:100px;
+		text-indent:10px;
+		position: absolute;
+		left: 0;
+		top:0;
+	}
+	ul{
+		height:auto;
+		width:100%;
+		background:#e5e5e5;
+	}
+	.word{
+		display:inline-block;
+		height:30px;
+		line-height:30px;
+		max-width:130px;
+		width:auto;
+		position: absolute;
+		left: 82px;
+		top:0;
+		color:#fff;
+		font-size:12px;
+	}
+</style>

@@ -28,6 +28,17 @@
         /*路由配置*/
         .config(['$stateProvider','$urlRouterProvider',routeConfig])
 
+        .factory('highlightInit', function(){
+            return function(){
+                setTimeout(function(){
+                    hljs.initHighlightingOnLoad();
+                    $('pre code').each(function(i, block) {
+                        hljs.highlightBlock(block);
+                    });
+                },500)
+            }
+        })
+
         /*wrap控制器*/
         .controller('WrapCtrl',wrapController)
 
@@ -55,6 +66,9 @@
 
         /*demo8控制器*/
         .controller('Demo8.Controller',demo8Controller)
+
+      /*demo9控制器*/
+        .controller('Demo9.Controller',demo9Controller)
 
 })();
 
@@ -180,6 +194,16 @@ function routeConfig($stateProvider, $urlRouterProvider){
                 }
             }
         })
+        .state('angularapi',{
+            url : "/angularapi",
+            views : {
+                'main' : {
+                    templateUrl : "../tpls/demo12.tpl.html",
+                    controller : 'Demo9.Controller',
+                    controllerAs :　"ctrl"
+                }
+            }
+        })
 }
 
 /*依赖注入*/
@@ -192,6 +216,8 @@ demo5Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$tim
 demo6Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','$q','$mdBottomSheet','$mdToast'];
 demo7Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','$q','$mdDialog','$interval','$mdSidenav','$mdUtil','$mdToast'];
 demo8Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','Restangular'];
+demo9Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','Restangular','highlightInit'];
+
 
 /*构造函数*/
 /*管理wrap*/
@@ -208,7 +234,8 @@ function wrapController($state, $rootScope, $modal, $alert, $http, $timeout, uti
             {  itemName : "m-menu" , newState : 'menu'},
             {  itemName : "m-sidenav" , newState : 'sidenav'},
             {  itemName : "ui-ace" , newState : 'ui-ace'},
-            {  itemName : "restangular" , newState : 'restangular'}
+            {  itemName : "restangular" , newState : 'restangular'},
+            {  itemName : "angularapi" , newState : 'angularapi'}
         ];
         vm.itemActive = 'chose demo';
         vm.changeView = changeView;
@@ -756,4 +783,9 @@ function demo8Controller( $state, $rootScope, $modal, $alert, $http, $timeout, u
 
     var promise=$http.jsonp("/api/users.json?callback=JSON_CALLBACK");
 
+}
+
+/*管理demo9*/
+function demo9Controller( $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, Restangular, highlightInit){
+  highlightInit();
 }
