@@ -1,0 +1,37 @@
+<div ng-style="noteboxwrap" ng-cloak>
+	<ul class="notebox-list clearfix">
+		<li class="notebox-item" ng-repeat="item in rows">
+			<a href="javascript:;" data-id="{{item.id}}" ng-mouseover="stopTimer()" ng-mouseout="startTimer()" ng-bind="item.title"></a>
+		</li>
+	</ul>
+</div>
+
+<style>
+	.notebox-list{
+		margin:0;
+		padding:0;
+		list-style:none;
+		height: 100%;
+		position:absolute;
+		top:0;
+		display: inline-block;
+		left:0;
+		width:1500px;
+	}
+	.notebox-item{
+		height: 100%;
+		float:left;
+		margin-right: 50px;
+	}
+	.notebox-item a{
+		display: inline-block;
+		padding:0 10px;
+		height:100%;
+		text-decoration: none;
+		line-height: 30px;
+		font-size:12px;
+	}
+	.notebox-item a:hover{
+		text-decoration: underline;
+	}
+</style>

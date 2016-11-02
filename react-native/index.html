@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="App">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/angular-motion.css">
+	<link rel="stylesheet" href="../css/doc.css">
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+	
+	<div ng-controller="WrapCtrl as wrap">
+	    <div class="col-md-4 pull-right" style="position:absolute;right:-10px;top:-50px">
+	        <div class="dropdown  pull-right">
+	            <input class="btn btn-sm btn-info dropdown-toggle" type="button"  data-toggle="dropdown" ng-model="itemActive" ng-value="wrap.itemActive">
+	            <ul class="dropdown-menu">
+	                <li><a href="javascript:;" ng-repeat="item in wrap.items" ui-sref="{{item.newState}}" ng-bind="item.itemName" ng-click="wrap.changeView(item)"></a></li>
+	            </ul>
+	        </div>
+	    </div>
+	</div>
+	<div ui-view="main">
+	</div>
+
+
+<script src="../js/jquery.min.js"></script> <!-- angular-strap很多指令依赖jquery -->
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/angular.js"></script>
+<script src="../js/angular-ui-router.js"></script>
+<script src="../js/highlight.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

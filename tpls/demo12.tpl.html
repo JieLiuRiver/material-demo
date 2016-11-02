@@ -294,7 +294,124 @@
         deferred.resolve({name:"jack"});
         /*用拒绝执行promise*/
 
-    无论promise成功还是拒绝，当结果可用的时候，then都会立即异步调用其中的回调函数， 而且then()方法总是返回一个新的promise
+    无论promise成功还是拒绝，当结果可用的时候，then都会立即异步调用其中的回调函数， 而且then()方法总是返回一个新的promise,
+    因此可以用链式请求写法。
+
+    如果说我们有多个Promise，我们可以把它们合成一个，
+    通过all()方法，这个方法返回一个promise数组
+    $q.all()
+
+    defer()方法是创建一个deferred对象，没有参数，返回deferred对象的一个实例
+
+
+8.XHR
+    1).浏览器会通过对比每一个资源的协议，主机名和端口号来判断资源是否与页面同源，站外其他来源的脚本同页面的交互被严格限制。
+
+    2).JSONP可以绕过浏览器的安全限制，从不同的域请求数据，使用JSONP需要服务器端提供支持。
+    原理： 通过&lt;script>标签发起一个GET请求来取代XHR请求，JSONP生成一个&lt;script>标签并插到DOM中，然后浏览器会接管，向src属性所指向的地址发送请求。
+    当服务器返回请求的时候，响应结果会被包装成一个js函数，这个请求对应的回调函数调用。
+
+    3).AngularJS在$http服务中提供了一个JSONP的辅助函数，通过$http服务的jsonp方法可以发送请求：
+        $http
+            .jsonp('https//api.github.com?callback=JSON_CALLBACK')
+            .sucess(function(data){ //数据 })
+
+        当请求被发送时，AngularJS会在DOM中生成如下&lt;script>标签：
+            &lt;script src="https//api.github.com?callback=angular.callback._0" type="text/javascript">&lt;/script>
+        注意，JSON_CALLBACK被替换成一个特地为此服务生成的自定义函数
+        当服务器返回数据时，数据会被包装在angular.callback._0中
+
+
+    4).使用$http
+        $http封装了浏览器原生的XMLHttpRequest对象
+        $http({
+            method : "GET",
+            url :"/api/users.json",
+            params : {
+                'username' : "dfjk"
+            }
+        }).success(function(data, status, header, config){
+
+        }).error(function(data, status, header, config){
+            
+        })
+        $http方法返回一个promise对象，使用链式调用服务，不需要回调函数
+
+    5).$http.get();
+        $http.get('/api/user.json');
+        接收2个参数:
+            url
+            config 可选，对象
+
+    6).$http.post();
+        url : 请求的路径
+        data : 请求的数据
+        config : 可选
+
+    7).设置$httpProvider
+        把所有请求，都添加请求头
+        angular
+            .module('app',[])
+            .config(function($httpProvider){
+                $httpProvider.defaults.headers
+                    .common['X-Requested-By'] = 'MyAngularApp';
+            })
+
+
+    8).使用$resource
+        AngularJS还提供了另外一个非常有用的服务，
+        这个服务可以创建一个资源对象，可以用它很方便的与支持RESTful的服务端数据源进行交互。
+        
+        安装：
+            bower install --save angular-resouce
+
+        引入：
+            &lt;script src="angular-resource.js">&lt;/script>
+
+
+        模块依赖进来：
+            angular.module('app',['ngResource'])
+
+
+9.Restangular
+    一个专门用来从外部读取数据的AngularJS服务
+
+10.$location服务
+    解析地址栏中的URL，访问对应路由，能修改路径
+    对window.location对象的api进行优雅地封装
+    当需要内部跳转的时候，譬如说，注册完，登录后
+    
+    1).$location.path()  获取页面当前的路径
+       $location.psht('/');  把路径修改为'/'的路由
+       这个是可以点击后退退回上一个页面的，如果不希望点击后退能回去，使用replace方法
+
+    2).$location.replace();
+       使用：
+        $location.path('/home').replace();
+
+    3).获取编码后的完整的URL：
+        $location.absUrl();
+
+    4).获取URL中的hash片段
+        $location.hash();
+
+    5).获取URL中的主机
+        $location.host();
+
+    6).获取URL中的端口号
+        $location.port();
+
+    7).获取URL中的协议
+        $location.protocol();
+
+    8).获取URL中的查询串
+        $location.search();
+
+    9).获取当前页面的URL
+        $location.url()
+        设置新的URL
+        $location.url('/home?name=jack');
+
        </code>
    </pre>
 

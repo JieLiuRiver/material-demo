@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84d4ab78-ecee-4643-853f-ebd6eef5f1b8" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/app.js" afterPath="$PROJECT_DIR$/demo/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/echart/app.js" afterPath="$PROJECT_DIR$/echart/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/demo1.html" afterPath="$PROJECT_DIR$/demo/demo1.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tpls/demo12.tpl.html" afterPath="$PROJECT_DIR$/tpls/demo12.tpl.html" />
     </list>
     <ignored path="material-demo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -310,6 +312,9 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="84d4ab78-ecee-4643-853f-ebd6eef5f1b8" name="Default" comment="" />
@@ -320,12 +325,12 @@
       <workItem from="1477298469126" duration="2781000" />
       <workItem from="1477374306094" duration="3518000" />
       <workItem from="1477470930221" duration="5706000" />
-      <workItem from="1477883331838" duration="4000" />
+      <workItem from="1477883331838" duration="603000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12009000" />
+    <option name="totallyTimeSpent" value="12608000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="55" y="-8" width="1393" height="916" extended-state="7" />
@@ -348,6 +353,14 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />

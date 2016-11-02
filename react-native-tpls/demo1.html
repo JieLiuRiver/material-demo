@@ -1,0 +1,115 @@
+<div class="container wrapContainer">
+	
+<pre>
+<code>
+	<h2>React　Native</h2>
+	一、介绍
+		1.
+			1).它的底层引擎是JavaScript Core
+			2).运行时，可以做到与Native App媲美的体验
+			3).Facebook开源，引起业界关注
+			4).React Native为JavaScript开发跨终端应用提供了更多丰富的想象空间
+
+		2.环境搭建
+			2.1).以Mac OS X系统为基础
+			2.2).安装NodeJs
+			2.3).安装Xcode
+			2.4).安装Homebrew, 同时安装watchman flow
+					brew install watchman
+					brew install flow
+
+			2.5). npm install -g react-native-cli
+				如果提示需要管理员权限，可以给命令添加sudo，然后输入管理员密码：
+					sudo npm install -g react-native-cli
+
+			2.6).需要经常切换Node.js版本，建议使用NVM来管理Node.js版本
+
+			2.7).创建Hello项目：
+				react-native init Hello
+				往下走回有一个模拟器，模拟器上显示Welcome to React Native
+				打开index.ios.js文件， 将Welcome to React Native 改为 嘿嘿
+				在使用cmd+R快捷键刷新模拟器。
+
+			2.8).React Native是基于React设计的，了解React有助于开发React Native应用
+
+			2.9).React简介
+				将功能分解化，让开发像搭积木一样，快速，可维护。
+				特点：
+					1.React可以只作为视图，在MVC中使用； 作为UI
+					2.虚拟DOM， 一千，我们更新视图，需要先清空DOM容器中的内容，额然后将最新的DOM和数据追加到容器中，现在的React将这个操作放进了内存，React认为内存的操作远远比视图全部更新来的高效。React将视图变化，房间内存进行比较，计算出最小更新的视图，然后将差异的部分进行更新，这就是高效的原因。
+					3.单向数据流： React实现了单向数据流，相对于传统的数据绑定而言，React更加灵活啊，便捷。
+					4.来个例子：
+						引入：
+						&lt;script type="text/javascript" src="react.js">&lt;/script>
+						&lt;script type="text/javascript" src="JSXTransformer.js">&lt;/script>
+						HTMl：
+						&lt;div id="example">&lt;/div>
+						jsx:
+						var HelloMessage = React.createClass({
+							render: function(){
+								return &lt;h1>hello {this.props.name}&lt;/h1>
+							}
+						});
+						React.render(&lt;HelloMessage name="React"/>, document.getElementById('example'));
+						&lt;script type="text/jsx">
+						&lt;/script>
+
+
+			2.10).React Native
+				一次学习，多个平台编写代码，
+				只要掌握了React 和JSX，补充IOS/Android/Web只是，就能开发Native应用
+				上例子：
+					创建一个demo名的项目
+					react-native iknit demo
+					使用Xcode打开项目，修改index.ios.js:
+					'use strict';
+					var React = require('react-native');
+					var {
+						AppRegistry,
+						StyleSheet,
+						Text,
+						View,
+						Image,
+					} = React;
+					var demo = React.createClass({
+						render : function(){
+							return (
+								&lt;View style={styles.container}>
+									&lt;Text style={styles.welcome}>欢迎来到React Native世界&lt;/Text>
+									&lt;Image style{{width:50,height:50,resizeMode:Image.resizeMode.contain}}
+									 source={{uri:'https//facebook.github.io/react-native/img/header_logo.png'}}>
+									&lt;/Image>
+								&lt;/View>
+							)
+						}
+					})
+					var styles = StyleSheet.create({
+						container : {
+							flex : 1,
+							justifyContent : 'center',
+							alignItems : 'center',
+							backgroundColor : "#f50"
+						},
+						welcome : {
+							fontSize:20,
+							color:'#fff'
+						}
+					})
+					AppRegistry.registerComponent('demo',() => demo);
+					接着再Xcode中启动项目
+
+					分析代码：
+						使用require引入react-native模块，定义了AppRegistrey、StyleSheet、Text、View和Image这5个对象，
+						其实是React Native的3个组件Text/View/Image和2个API
+						上面的定义也可以是这样的：
+							var AppRegistry = React.AppRegistry;
+							var StyleSheet = React.StyleSheet;
+							....
+					
+
+
+
+</code>
+</pre>
+
+</div>

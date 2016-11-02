@@ -20,7 +20,11 @@
             'ngMaterial',
             'jack.combox',
             'ui.ace',
-            'restangular'
+            'restangular',
+            'M.smartisan',
+            'j.pagination',
+            'j.notebox',
+            'j.board'
         ])
 
         .run(['$rootScope', '$state', '$stateParams',routeRun])
@@ -67,8 +71,11 @@
         /*demo8控制器*/
         .controller('Demo8.Controller',demo8Controller)
 
-      /*demo9控制器*/
+        /*demo9控制器*/
         .controller('Demo9.Controller',demo9Controller)
+
+        /*demo10控制器*/
+        .controller('Demo10.Controller',demo10Controller)
 
 })();
 
@@ -204,6 +211,36 @@ function routeConfig($stateProvider, $urlRouterProvider){
                 }
             }
         })
+        .state('smartisan1',{
+            url : "/smartisan1",
+            views : {
+                'main' : {
+                    templateUrl : "../tpls/demo13.tpl.html",
+                    controller : 'Demo10.Controller',
+                    controllerAs :　"vm"
+                }
+            }
+        })
+        .state('paging',{
+            url : "/paging",
+            views : {
+                'main' : {
+                    templateUrl : "../tpls/demo14.tpl.html",
+                    controller : 'Demo10.Controller',
+                    controllerAs :　"vm"
+                }
+            }
+        })
+        .state('board',{
+            url : "/board",
+            views : {
+                'main' : {
+                    templateUrl : "../tpls/demo15.tpl.html",
+                    controller : 'Demo10.Controller',
+                    controllerAs :　"vm"
+                }
+            }
+        })
 }
 
 /*依赖注入*/
@@ -217,6 +254,7 @@ demo6Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$tim
 demo7Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','$q','$mdDialog','$interval','$mdSidenav','$mdUtil','$mdToast'];
 demo8Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','Restangular'];
 demo9Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','Restangular','highlightInit'];
+demo10Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','Restangular','highlightInit'];
 
 
 /*构造函数*/
@@ -235,7 +273,10 @@ function wrapController($state, $rootScope, $modal, $alert, $http, $timeout, uti
             {  itemName : "m-sidenav" , newState : 'sidenav'},
             {  itemName : "ui-ace" , newState : 'ui-ace'},
             {  itemName : "restangular" , newState : 'restangular'},
-            {  itemName : "angularapi" , newState : 'angularapi'}
+            {  itemName : "angularapi" , newState : 'angularapi'},
+            {  itemName : "smartisan1" , newState : 'smartisan1'},
+            {  itemName : "paging" , newState : 'paging'},
+            {  itemName : "board" , newState : 'board'}
         ];
         vm.itemActive = 'chose demo';
         vm.changeView = changeView;
@@ -788,4 +829,254 @@ function demo8Controller( $state, $rootScope, $modal, $alert, $http, $timeout, u
 /*管理demo9*/
 function demo9Controller( $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, Restangular, highlightInit){
   highlightInit();
+}
+
+
+/*管理demo10*/
+function demo10Controller( $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, Restangular, highlightInit){
+  highlightInit();
+  var vm = this;
+  /**=============  coolpic =================**/
+  vm.test = 'hello angular directive';
+  vm.data1 = ['hi','hello'];
+  vm.testFn = testFn;
+  vm.coolpicid = '34';
+  vm.coolpicConfig = {
+    width : '1000px',
+    height : '500px',
+    backgroundColor : "#666",
+    borderRadius : "10px",
+    imgpath : [
+       {"path" : '../img/1.jpg'},
+       {"path" : '../img/2.jpg'},
+       {"path" : '../img/3.jpg'}
+    ]
+  }
+  function testFn(){
+    console.log('测试angular&符号功能');
+  }
+
+  /**=============  pagination =================**/
+  vm.paginationCongig = {
+    total : 20, //共多少条
+    pagesize : 20, //一页5条
+    pagenum : 2, //当前第一页
+    amout : 9, //9个数字按钮
+    queryUrl : "stationData1.json",
+    params : {
+        'stationid' : "234"
+    }
+  }
+ 
+ /*================ notebox =====================*/
+  vm.noteboxConfig = {
+    width : "200px",
+    height : "30px",
+    rows : [
+        {
+            
+            id : "1",
+            title : "《移动端开发深度揭秘》系列免费公开课程即将开班"
+        },
+        {
+            id : "2",
+            title : "微信小程序开发实战：“记事本”程序开发"
+        },
+        {
+            id : "3",
+            title : "妙味“JS全栈-201607届”学员中级阶段课程作品展示"
+        },
+        {
+            id : "4",
+            title : "《移动端开发深度揭秘》系列免费公开课程即将开班"
+        }
+    ]
+  }
+
+  /*=============== board =================*/
+  vm.boardCongig = {
+    rows : [
+        {
+            color : "colPink",
+            textNote : "lession1",
+            title : "PhotoShop",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colRed",
+            textNote : "lession2",
+            title : "HTML5详解",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colOrange",
+            textNote : "lession3",
+            title : "CSS3详解",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colYellow",
+            textNote : "lession4",
+            title : "Bootstrap",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colRed",
+            textNote : "lession2",
+            title : "HTML5详解",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colOrange",
+            textNote : "lession3",
+            title : "CSS3详解",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colYellow",
+            textNote : "lession4",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            title : "Bootstrap",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colYellow",
+            textNote : "lession4",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            title : "Bootstrap",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colYellow",
+            textNote : "lession4",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            title : "Bootstrap",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colYellow",
+            textNote : "lession4",
+            title : "Bootstrap",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+         {
+            color : "colRed",
+            textNote : "lession2",
+            title : "HTML5详解",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colOrange",
+            textNote : "lession3",
+            title : "CSS3详解",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colYellow",
+            textNote : "lession4",
+            title : "Bootstrap",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colRed",
+            textNote : "lession2",
+            title : "HTML5详解",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colOrange",
+            textNote : "lession3",
+            title : "CSS3详解",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colGreen",
+            textNote : "lession5",
+            title : "NodeJs",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        }
+        ,
+        {
+            color : "colOrange",
+            textNote : "lession3",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            title : "CSS3详解",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colYellow",
+            textNote : "lession4",
+            title : "Bootstrap",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colRed",
+            textNote : "lession2",
+            title : "HTML5详解",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            isRotated : false,
+            id : "1"
+        },
+        {
+            color : "colOrange",
+            textNote : "lession3",
+            rotatedColor : "colRed",
+            rotatedText : "微信出品的 “小程序” 已经在业界掀起研究热潮",
+            title : "CSS3详解",
+            isRotated : false,
+            id : "1"
+        }
+    ]
+  }
 }

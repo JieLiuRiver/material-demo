@@ -1,0 +1,14 @@
+
+<ul class="pagination">
+	<li class="previous" ng-hide="isHideBenginPage">
+		<a href="javascript:;" ng-click="getBenginPage()">首页</a>
+	</li>
+	<li class="previous" ng-hide="isHidePrev"><a href="javascript:;" ng-click="getPrevPage()">上一页</a></li>
+	<li class="amoutnumbtn" ng-repeat="o in amouts" ng-class="{true: 'active', false: ''}[o.active]">
+		<a href="javascript:;" ng-bind="o.size" ng-click="changePage($event)"></a>
+	</li>
+	<li class="next" ng-hide="isHideNext">
+		<a href="javascript:;" ng-click="getNextPage()">下一页</a>
+	</li>
+	<li class="previous" ng-hide="isHideEndPage"><a href="javascript:;" ng-click="getEndPage()">尾页</a></li>
+</ul>
