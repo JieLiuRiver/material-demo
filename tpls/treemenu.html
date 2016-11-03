@@ -1,0 +1,217 @@
+
+
+<div class="treemenu-box clearfix">
+	 <md-content flex class="pull-left treemenu-wrap">
+	 		<ul class="treemenu-step1-list w" ng-style="treemenuStep1List" id="wrapper">
+	 			<li class="treemenu-step1-item w" ng-repeat="item in step1Items" data-id="{{item.id}}" >
+	 				<button class="md-raised md-button md-default-theme w m0"  ng-click="openStep2Menu($event,item)">
+	 					<span class="ng-scope" ng-bind="item.name" ></span>
+	 				</button>
+	 				<ul class="treemenu-step2-list w " ng-class="{true : 'zoomIn animated', false : 'zoomOut hide'}[item.isStep2Expanded]" style="margin-top:4px;">
+	 					<li class="treemenu-step2-item w" ng-repeat="item2 in item.step2Items" data-id="{{item2.id}"}>
+	 						<button class="md-raised md-primary md-button md-default-theme w m0" ng-click="openStep3Menu($event,item2)">
+	 							<span class="ng-scope" ng-bind="item2.name"></span>
+	 						</button>
+	 						<ul class="treemenu-step3-list w" style="margin-top:4px;" ng-class="{true : 'zoomIn animated', false : 'zoomOut hide'}[item2.isStep3Expanded]">
+	 								<li class="treemenu-step3-item w" ng-repeat="item3 in item2.step3Items" data-id="{{item3.id}}">
+	 									<button class="md-raised md-warn md-button md-default-theme w m0">
+	 										<span class="ng-scope" ng-bind="item3.name" ></span>
+	 									</button>
+	 								</li>
+	 						</ul>
+	 					</li>
+	 				</ul>
+	 			</li>
+	 		</ul>
+	 </md-content>
+	
+
+	<!-- <input type="button" class="up-icon scrollIcon dib" ng-show="isCanScrollToTop">
+	<input type="button" class="down-icon scrollIcon dib" ng-show="isCanScrollToBotttom" ng-keyup="scrollToTop()"> -->
+
+	<div class="pull-right treemenu-content">
+			<code>{{ listenHeight }}</code>
+	</div>
+</div>
+
+<style>
+	.treemenu-box{
+		width:1200px;
+		height:600px;
+		position: absolute;
+		left: calc( 50% - 600px );
+		top : calc( 50% - 300px );
+	}
+	.treemenu-wrap{
+		width:210px;
+		height:600px;
+		padding:0 5px;/* 
+		overflow: hidden; */
+		padding-top: 4px;
+		box-sizing: border-box;
+		position:relative;
+		/*background:#0095ff;*/
+	}
+	.treemenu-content{
+		width:984px;
+		height:600px;
+		background:#e5e5e5;
+	}
+	ul{
+		list-style: none;
+		margin:0;
+		padding:0;
+	}
+	.w{
+		width:100%;
+	}
+	.h{
+		height:100%;
+	}
+	.m0{
+		margin:0;
+	}
+	.treemenu-step1-list{
+		height:auto;
+	}
+	.treemenu-step1-item,
+	.treemenu-step2-item,
+	.treemenu-step3-item{
+		height:36px;
+		line-height: 36px;
+		box-sizing: border-box;
+		margin-bottom: 4px;
+		z-index: 200;
+	}
+	.dib{
+		display: inline-block;
+	}
+	.treemenu-step1-item button{
+		box-shadow: 0px 0px 5px 0 rgba(0,0,0,.6) !important;
+		font-size:14px;
+	}
+	.scrollIcon{
+		position:absolute;
+		width:30px;
+		height:30px;
+		left:calc( 90px );
+	}
+	.up-icon{
+		top:-31px;
+		background:url(../img/up.png) no-repeat;
+		background-size:contain;
+	}
+	.down-icon{
+		background:url(../img/down.png) no-repeat;
+		background-size:contain;
+		bottom:-31px;
+	}
+	.expand{
+		transition:1s;
+	}
+	@-webkit-keyframes expand {
+	  from {
+	    opacity: 0;
+	    display:none;
+	    -webkit-transform: scale3d(0, 0, 0);
+	    transform: scale3d(0, 0, 0);
+	  }
+	
+	  50% {
+	    opacity: 1;
+	    display:block;
+	  }
+	}
+	
+	@keyframes expand {
+	  from {
+	    opacity: 0;
+	    display:none;
+	    -webkit-transform: scale3d(0, 0, 0);
+	    transform: scale3d(0, 0, 0);
+	  }
+	
+	  50% {
+	    opacity: 1;
+	    display:block;
+	  }
+	}
+	.expand {
+	  -webkit-animation-name: expand;
+	  animation-name: expand;
+	}
+	@-webkit-keyframes zoomOut {
+	  from {
+	    opacity: 1;
+	  }
+
+	  50% {
+	    opacity: 0;
+	    -webkit-transform: scale3d(.3, .3, .3);
+	    transform: scale3d(.3, .3, .3);
+	  }
+
+	  to {
+	    opacity: 0;
+	  }
+	}
+
+	@keyframes zoomOut {
+	  from {
+	    opacity: 1;
+	  }
+
+	  50% {
+	    opacity: 0;
+	    -webkit-transform: scale3d(.3, .3, .3);
+	    transform: scale3d(.3, .3, .3);
+	  }
+
+	  to {
+	    opacity: 0;
+	  }
+	}
+
+	.zoomOut {
+	  -webkit-animation-name: zoomOut;
+	  animation-name: zoomOut;
+	}
+	@-webkit-keyframes zoomIn {
+	  from {
+	    opacity: 0;
+	    -webkit-transform: scale3d(.3, .3, .3);
+	    transform: scale3d(.3, .3, .3);
+	  }
+
+	  50% {
+	    opacity: 1;
+	  }
+	}
+
+	@keyframes zoomIn {
+	  from {
+	    opacity: 0;
+	    -webkit-transform: scale3d(.3, .3, .3);
+	    transform: scale3d(.3, .3, .3);
+	  }
+
+	  50% {
+	    opacity: 1;
+	  }
+	}
+
+	.zoomIn {
+	  -webkit-animation-name: zoomIn;
+	  animation-name: zoomIn;
+	}
+	.zoomOutUp {
+	  -webkit-animation-name: zoomOutUp;
+	  animation-name: zoomOutUp;
+	}
+	.animated {
+	  -webkit-animation-duration: .5s;
+	  animation-duration: .5s;
+	  -webkit-animation-fill-mode: both;
+	  animation-fill-mode: both;
+	} 
+</style>

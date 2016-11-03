@@ -24,7 +24,9 @@
             'M.smartisan',
             'j.pagination',
             'j.notebox',
-            'j.board'
+            'j.board',
+            'j.console',
+            'j.treeMenu'
         ])
 
         .run(['$rootScope', '$state', '$stateParams',routeRun])
@@ -76,6 +78,9 @@
 
         /*demo10控制器*/
         .controller('Demo10.Controller',demo10Controller)
+
+        /*demo11控制器*/
+        .controller('Demo11.Controller',demo11Controller)
 
 })();
 
@@ -241,6 +246,16 @@ function routeConfig($stateProvider, $urlRouterProvider){
                 }
             }
         })
+        .state('treemenu',{
+            url : "/treemenu",
+            views : {
+                'main' : {
+                    templateUrl : "../tpls/demo16.tpl.html",
+                    controller : 'Demo11.Controller',
+                    controllerAs :　"vm"
+                }
+            }
+        })
 }
 
 /*依赖注入*/
@@ -255,6 +270,7 @@ demo7Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$tim
 demo8Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','Restangular'];
 demo9Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','Restangular','highlightInit'];
 demo10Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','Restangular','highlightInit'];
+demo11Controller.$inject = ['$state','$rootScope','$modal','$alert','$http','$timeout', 'utils','i18nService','Restangular','highlightInit'];
 
 
 /*构造函数*/
@@ -276,7 +292,8 @@ function wrapController($state, $rootScope, $modal, $alert, $http, $timeout, uti
             {  itemName : "angularapi" , newState : 'angularapi'},
             {  itemName : "smartisan1" , newState : 'smartisan1'},
             {  itemName : "paging" , newState : 'paging'},
-            {  itemName : "board" , newState : 'board'}
+            {  itemName : "board" , newState : 'board'},
+            {  itemName : "treemenu" , newState : 'treemenu'}
         ];
         vm.itemActive = 'chose demo';
         vm.changeView = changeView;
@@ -1079,4 +1096,254 @@ function demo10Controller( $state, $rootScope, $modal, $alert, $http, $timeout, 
         }
     ]
   }
+}
+
+/*管理demo11*/
+function demo11Controller( $state, $rootScope, $modal, $alert, $http, $timeout, utils, i18nService, Restangular, highlightInit){
+    var vm = this;
+    vm.opts = {
+        step1Items : [
+            {
+                id : "0",
+                name : "商户管理",
+                isStep2Expanded: false,
+                step2Items : [
+                    {
+                        id : "00",
+                        isStep3Expanded: false,
+                        name : "新增客户"
+                    },
+                    {
+                        id : "01",
+                        name : "修改客户",
+                        isStep3Expanded: false,
+                        step3Items :[
+                            {
+                                id : "000",
+                                name : "物流企业"
+                            },
+                            {
+                                id : "001",
+                                name : "总部型企业"
+                            },
+                            {
+                                id : "002",
+                                name : "专业市场企业"
+                            }
+                        ]
+                    },
+                    {
+                        id : "02",
+                        isStep3Expanded: false,
+                        name : "商户人脉",
+                        step3Items :[
+                            {
+                                id : "020",
+                                name : "集中检索"
+                            },
+                            {
+                                id : "021",
+                                name : "物流企业"
+                            },
+                            {
+                                id : "022",
+                                name : "总部型企业"
+                            },
+                            {
+                                id : "023",
+                                name : "专业市场企业"
+                            },
+                            {
+                                id : "024",
+                                name : "开通跟踪"
+                            }
+                        ]
+                    },
+                    {
+                        id : "03",
+                        isStep3Expanded: false,
+                        name : "开通跟踪"
+                    },
+                    {
+                        id : "04",
+                        isStep3Expanded: false,
+                        name : "支付管理",
+                        step3Items :[
+                            {
+                                id : "040",
+                                name : "终端管理"
+                            },
+                            {
+                                id : "041",
+                                name : "微信/支付宝"
+                            },
+                            {
+                                id : "042",
+                                name : "银联在线"
+                            },
+                            {
+                                id : "043",
+                                name : "代扣管理"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id : "1",
+                name : "监控中心",
+                isStep2Expanded: false,
+                step2Items : [
+                    {
+                        id : "10",
+                        isStep3Expanded: false,
+                        name : "用户业务数据",
+                        step3Items :[
+                            {
+                                id : "100",
+                                name : "物流企业"
+                            },
+                            {
+                                id : "101",
+                                name : "总部型企业"
+                            },
+                            {
+                                id : "102",
+                                name : "专业市场"
+                            }
+                        ]
+                    },
+                    {
+                        id : "11",
+                        isStep3Expanded: false,
+                        name : "清分数据",
+                        step3Items :[
+                            {
+                                id : "110",
+                                name : "集中检索"
+                            },
+                            {
+                                id : "111",
+                                name : "物流企业"
+                            },
+                            {
+                                id : "112",
+                                name : "总部型企业"
+                            },
+                            {
+                                id : "113",
+                                name : "专业市场企业"
+                            }
+                        ]
+                    },
+                    {
+                        id : "12",
+                        isStep3Expanded: false,
+                        name : "风险控制",
+                        step3Items :[
+                            {
+                                id : "120",
+                                name : "风险规划配置"
+                            },
+                            {
+                                id : "121",
+                                name : "风险行为分析"
+                            },
+                            {
+                                id : "122",
+                                name : "反洗钱监控"
+                            },
+                            {
+                                id : "123",
+                                name : "风险事件跟踪"
+                            }
+                        ]
+                    },
+                    {
+                        id : "13",
+                        isStep3Expanded: false,
+                        name : "货款管理"
+                    },
+                    {
+                        id : "14",
+                        isStep3Expanded: false,
+                        name : "电子围栏"
+                    }
+                ]
+            },
+            {
+                id : "2",
+                isStep2Expanded: false,
+                name : "数据服务中心",
+                step2Items : [
+                    {
+                        id : "20",
+                        isStep3Expanded: false,
+                        name : "标签管理"
+                    },
+                    {
+                        id : "21",
+                        isStep3Expanded: false,
+                        name : "数据服务",
+                        step3Items :[
+                            {
+                                id : "210",
+                                name : "物流数据"
+                            },
+                            {
+                                id : "211",
+                                name : "总部型数据"
+                            },
+                            {
+                                id : "212",
+                                name : "专业市场数据"
+                            },
+                            {
+                                id : "213",
+                                name : "其他数据"
+                            }
+                        ]
+                    },
+                    {
+                        id : "22",
+                        isStep3Expanded: false,
+                        name : "商圈管理",
+                        step3Items :[
+                            {
+                                id : "220",
+                                name : "新增商圈"
+                            },
+                            {
+                                id : "221",
+                                name : "商圈查询"
+                            },
+                            {
+                                id : "222",
+                                name : "商圈统计"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id : "3",
+                isStep2Expanded: false,
+                name : "我的组织",
+                step2Items : [
+                    {
+                        id : "30",
+                        name : "站点管理"
+                    },
+                    {
+                        id : "31",
+                        name : "员工管理"
+                    },
+                    {
+                        id : "32",
+                        name : "人脉管理"
+                    }
+                ]
+            }
+        ]
+    }
 }

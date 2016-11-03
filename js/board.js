@@ -6,11 +6,11 @@
 (function(){
 	'use strict';
 	angular
-		.module('j.board',['mgcrea.ngStrap'])
+		.module('j.board',['mgcrea.ngStrap','j.console'])
 		.directive('board',paginationFactory)
 
-		paginationFactory.$inject = ['$timeout', '$http', '$compile', '$interval'];
-		function paginationFactory($timeout, $http, $compile, $interval){
+		paginationFactory.$inject = ['$timeout', '$http', '$compile', '$interval','log','$log'];
+		function paginationFactory($timeout, $http, $compile, $interval,log, $log){
 			var config = {
 				restrict : "E",
 				templateUrl : "../tpls/board.html",
@@ -21,7 +21,6 @@
 				link : linkWork
 			}
 			function linkWork(scope, element, attrs){
-				console.log(scope)
 				var wallsLength = 0;
 				var timer1 = null;
 				var timer2 = null;
@@ -42,6 +41,11 @@
 						topPosition : 110*(i+1) + 60*i
 					});
 				}
+				/*$log.info('hello world', scope.configData)
+				$log.log('hello world', scope.configData)
+				log('hello world', scope.configData)
+				$log.warn('hello world', scope.configData)*/
+
 				/* 遍历数据 循环*/
 				scope.walls = angular.copy(walls);
 				scope.tooltip = [
@@ -72,9 +76,7 @@
 						return;
 					}
 					var $a = angular.element($event.target).parents('li').find('.page1');
-					var $a2 = angular.element($event.target).parents('.page2');
-					console.log($event.target)
-					$a.animate({
+					var $a2 = angular.element($event.target).parents('.page2');					$a.animate({
 							left : 0
 					},300);
 					$a2.animate({

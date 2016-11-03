@@ -1,7 +1,7 @@
 
 <div class="board-wrap">
 	<ul class="board-list clearfix">
-		<li class="board-item" ng-repeat="item in rows"  >
+		<li class="board-item" ng-repeat="item in rows">
 			<a href="javascript:;" class="page1" ng-mouseenter="shakeAmimate($event, item)" ng-mouseleave="removeAmimate2($event, item)">
 				<div ng-class="{true :item.color, false : item.rotatedColor}[!item.isRotated]"></div>
 				<div ng-if="!item.isRotated" class="textNote" ng-bind="item.textNote"></div>
